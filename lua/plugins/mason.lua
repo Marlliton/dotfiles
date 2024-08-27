@@ -1,4 +1,4 @@
-#if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- Customize Mason plugins
 
@@ -21,6 +21,7 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
+        "rust_analyzer",
         -- add more arguments for adding more language servers
       },
     },

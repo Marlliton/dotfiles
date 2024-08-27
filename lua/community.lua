@@ -7,7 +7,12 @@
 ---@type LazySpec
 return {
   "AstroNvim/astrocommunity",
+
+  -- LSP
   { import = "astrocommunity.pack.lua" },
+  { import = "astrocommunity.pack.rust" },
+
+  -- themes
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.colorscheme.rose-pine" },
   -- import/override with your plugins folder
