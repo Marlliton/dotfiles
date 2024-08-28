@@ -15,5 +15,8 @@ return {
   -- themes
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.colorscheme.rose-pine" },
+
+  -- plugins
+  { import = "astrocommunity.motion.mini-move" },
   -- import/override with your plugins folder
 }

@@ -22,6 +22,7 @@ return {
         "prismals",
         "pyright",
         "rust_analyzer",
+        "gopls",
         -- add more arguments for adding more language servers
       },
     },
