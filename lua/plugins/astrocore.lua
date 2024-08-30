@@ -45,7 +45,10 @@ return {
     mappings = {
       -- first key is the mode
       n = {
-        -- second key is the lefthand side of the map
+        -- Disable default command "s"
+        ["s"] = { "<Nop>", desc = "Disable default s command" },
+
+        -- ToggleTerm floating open
         ["<C-\\>"] = { "<cmd>ToggleTerm direction=float<cr>", desc = "ToggleTerm" },
 
         -- navigate buffer tabs
@@ -71,6 +74,7 @@ return {
       },
       -- Terminal mode mappings
       t = {
+        -- ToggleTerm close
         ["<C-\\>"] = { [[<C-\><C-n>:ToggleTerm<CR>]], desc = "Close Float Terminal" },
       },
     },

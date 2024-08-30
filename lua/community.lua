@@ -18,5 +18,6 @@ return {
 
   -- plugins
   { import = "astrocommunity.motion.mini-move" },
+  { import = "astrocommunity.motion.mini-surround" },
   -- import/override with your plugins folder
 }
