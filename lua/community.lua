@@ -19,6 +19,5 @@ return {
   -- plugins
   { import = "astrocommunity.motion.mini-move" },
   { import = "astrocommunity.motion.mini-surround" },
-  { import = "astrocommunity.lsp.lsp-signature-nvim" },
   -- import/override with your plugins folder
 }

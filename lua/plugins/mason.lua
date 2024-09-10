@@ -11,7 +11,7 @@ return {
     opts = {
       ensure_installed = {
         "lua_ls",
-        "tsserver",
+        "ts_ls",
         "html",
         "cssls",
         "tailwindcss",
@@ -21,7 +21,6 @@ return {
         "emmet_ls",
         "prismals",
         "pyright",
-        "rust_analyzer",
         "gopls",
         -- add more arguments for adding more language servers
       },
