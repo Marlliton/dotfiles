@@ -22,6 +22,7 @@ return {
         "prismals",
         "pyright",
         "gopls",
+        "yamlls",
         -- add more arguments for adding more language servers
       },
     },
@@ -38,6 +39,7 @@ return {
         "black", -- python formatter
         "pylint",
         "eslint-lsp",
+        "yamllint",
         -- add more arguments for adding more null-ls sources
       },
     },
