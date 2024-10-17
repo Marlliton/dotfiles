@@ -46,11 +46,15 @@ return {
   },
   {
     "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
-    opts = {
+    require("mason-nvim-dap").setup {
+      automatic_installation = false,
       ensure_installed = {
         "python",
+        "delve",
         -- add more arguments for adding more debuggers
+      },
+      handlers = {
+        function() require("dap-go").setup() end,
       },
     },
   },
