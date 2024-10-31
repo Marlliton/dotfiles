@@ -13,6 +13,7 @@ return {
   { import = "astrocommunity.pack.rust" },
 
   -- themes
+  { import = "astrocommunity.colorscheme.vim-dogrun" },
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.colorscheme.rose-pine" },
 
