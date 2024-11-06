@@ -16,6 +16,7 @@ return {
   { import = "astrocommunity.colorscheme.vim-dogrun" },
   { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.colorscheme.rose-pine" },
+  { import = "astrocommunity.colorscheme.nightfox-nvim" },
 
   -- plugins
   { import = "astrocommunity.motion.mini-move" },
