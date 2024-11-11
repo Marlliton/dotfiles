@@ -18,6 +18,7 @@ return {
       "toml",
       "css",
       "scss",
+      "bash",
       -- add more arguments for adding more treesitter parsers
     },
   },
