@@ -1,10 +1,11 @@
+
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 
 # THEMES
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 # THEMES
 
 # PLUGINS
@@ -55,4 +56,6 @@ alias cat="bat --style=auto"
 # RUST ALTERNATIVES
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+eval "$(oh-my-posh init zsh --config ~/dotfiles/zshrc/ho_my_posh.json)"
