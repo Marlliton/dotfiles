@@ -1,15 +1,6 @@
 # WARN: Only in WSL
 #export PATH=$PATH:/home/marlliton/.local/bin 
 
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-
-# THEMES
-# ZSH_THEME="powerlevel10k/powerlevel10k"
-# THEMES
-
 # PLUGINS
 plugins=(
 	git
