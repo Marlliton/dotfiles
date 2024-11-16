@@ -10,7 +10,7 @@
   **Insta with asdf the languages [golang](https://github.com/asdf-community/asdf-golang), [nodejs](https://github.com/asdf-vm/asdf-nodejs) and [python](https://github.com/asdf-community/asdf-python)**
 - [stow](https://www.gnu.org/software/stow/)
 - [oh my posh](https://ohmyposh.dev/docs/installation/linux)
-- [tmux plugin Manager]()
+- [tmux plugin Manager](https://github.com/tmux-plugins/tpm)
   **Clone this repo to your home directory**
   `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
 - [delve](https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#go-using-delve-directly)
