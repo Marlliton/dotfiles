@@ -1,5 +1,11 @@
 #!/bin/bash
 
+RED=$'\e[0;31m'
+GREEN=$'\e[0;32m'
+YELLOW=$'\e[0;33m'
+BLUE=$'\e[0;34m'
+RESET=$'\e[0m'
+
 PROGRAMAS_FLATPAK=(
   "com.discordapp.Discord"
   "io.beekeeperstudio.Studio"
@@ -135,36 +141,42 @@ instalar_asdf_apps() {
 }
 
 instalar_apps_via_git_go_e_curl() {
-  # Instala o oh-my-posh
-  echo "Instalando oh-my-posh..."
-  curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { echo "Erro ao instalar oh-my-posh"; exit 1; }
+  ( 
+    cd ~    
+    # Instala o oh-my-posh
+    echo "Instalando oh-my-posh..."
+    curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { echo "Erro ao instalar oh-my-posh"; exit 1; }
 
-  # Instala o Kitty
-  echo "Instalando Kitty..."
-  curl -fsSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin || { echo "Erro ao instalar Kitty"; exit 1; }
+    # Instala o Kitty
+    echo "Instalando Kitty..."
+    curl -fsSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin || { echo "Erro ao instalar Kitty"; exit 1; }
 
-  # Clona o TPM do tmux
-  echo "Clonando o TPM para o tmux..."
-  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || { echo "Erro ao clonar o TPM"; exit 1; }
+    # Clona o TPM do tmux
+    echo "Clonando o TPM para o tmux..."
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || { echo "Erro ao clonar o TPM"; exit 1; }
 
-  echo "Baixando e instalando lazygit..."
-  LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
-  curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-  tar xf lazygit.tar.gz lazygit
-  sudo install lazygit -D -t /usr/local/bin/
-  
-  # Instala o delve
-  echo "Instalando Delve..."
-  go install github.com/go-delve/delve/cmd/dlv@latest
-  
-  # Reshima o Golang com asdf
-  echo "Reshima o Golang..."
-  asdf reshim golang
+    echo "Baixando e instalando lazygit..."
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit -D -t /usr/local/bin/
+    
+    # Instala o delve
+    echo "Instalando Delve..."
+    go install github.com/go-delve/delve/cmd/dlv@latest
+    
+    # Reshima o Golang com asdf
+    echo "Reshima o Golang..."
+    asdf reshim golang 
+  )
+}
+instalar_apps_cargo() {
+  echo "[CARGO] instalando apps {exa, bat}"
+  cargo install exa bat 
 }
 
-atualizar_sistema
-baixar_e_instalar_programas_apt
-# baixar_e_instalar_programas_flatpak
+# atualizar_sistema
+# baixar_e_instalar_programas_apt
 # Adicionando links simbólicos
 symbolic_links="$PWD/symbolic_link.sh"
 . "$symbolic_links"
