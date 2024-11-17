@@ -164,7 +164,7 @@ instalar_apps_via_git_go_e_curl() {
 
 atualizar_sistema
 baixar_e_instalar_programas_apt
-baixar_e_instalar_programas_flatpak
+# baixar_e_instalar_programas_flatpak
 # Adicionando links simbólicos
 symbolic_links="$PWD/symbolic_link.sh"
 . "$symbolic_links"
