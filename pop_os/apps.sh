@@ -166,7 +166,7 @@ atualizar_sistema
 baixar_e_instalar_programas_apt
 baixar_e_instalar_programas_flatpak
 # Adicionando links simbólicos
-symbolic_links="$PWD/pop_os/apps.sh"
+symbolic_links="$PWD/symbolic_link.sh"
 . "$symbolic_links"
 
 instalar_asdf
