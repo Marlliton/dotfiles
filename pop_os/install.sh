@@ -11,6 +11,6 @@ BLUE=$'\e[0;34m'
 RESET=$'\e[0m'
 
 # INSTALL DEFAULT APPS
-install_apps="$PWD/pop_os/apps.sh"
+install_apps="$PWD/apps.sh"
 . "$install_apps"
 
