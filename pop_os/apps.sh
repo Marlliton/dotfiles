@@ -38,13 +38,6 @@ baixar_e_instalar_programas_apt() {
       echo "[PROGRAMA < $programa > JÁ EXISTE]"
     fi
   done
-
-  if ! command -v ulauncher >/dev/null 2>&1; then
-    echo "${YELLOW}INSTALANDO U_LAUNCHER${RESET}"
-    caminho_u_launcher_instalacao="$PWD/u_launcher/index.sh"
-    . "$caminho_u_launcher_instalacao"
-  fi
-  
 }
 
 baixar_e_instalar_programas_flatpak() {
@@ -82,7 +75,13 @@ adicionar_asdf_plugins() {
     "golang https://github.com/asdf-community/asdf-golang.git"
     "python"
     "dart https://github.com/patoconnor43/asdf-dart.git"
+    "rust https://github.com/asdf-community/asdf-rust.git"
   )
+
+  if ! command -v asdf >/dev/null 2>&1; then
+    echo "Adicionando temporariamente o ASDF as PATH"
+    [ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
+  fi
 
   for plugin in "${plugins[@]}"; do
     plugin_name=$(echo "$plugin" | awk '{print $1}')
@@ -98,35 +97,31 @@ adicionar_asdf_plugins() {
 instalar_asdf_apps() {
   echo "[INSTALANDO VERSÕES COM ASDF]"
 
+  # Para o Rust.js
+    echo "[INSTALANDO] Rust"
+    asdf install rust latest
+    asdf global rust latest
+    if ! command -v cargo >/dev/null 2>&1; then
+      echo "Adicionando temporariamente o Cargo ao PATH"
+      export PATH="$HOME/.cargo/bin:$PATH"
+    fi
+
   # Para o Node.js
-  if ! asdf list nodejs >/dev/null 2>&1; then
     echo "[INSTALANDO] Node.js"
     asdf install nodejs latest
     asdf global nodejs latest
-  else
-    echo "[NODEJS JÁ ESTÁ INSTALADO]"
-  fi
 
   # Para o Neovim
-  if ! asdf list neovim >/dev/null 2>&1; then
     echo "[INSTALANDO] Neovim"
     asdf install neovim stable
     asdf global neovim stable
-  else
-    echo "[NEOVIM JÁ ESTÁ INSTALADO]"
-  fi
 
   # Para o Golang
-  if ! asdf list golang >/dev/null 2>&1; then
     echo "[INSTALANDO] Golang"
     asdf install golang latest
     asdf global golang latest
-  else
-    echo "[GOLANG JÁ ESTÁ INSTALADO]"
-  fi
 
   # Para o Python
-  if ! asdf list python >/dev/null 2>&1; then
     echo "[INSTALANDO] Python"
     echo "[INFO] instalndon dependeincias do asdf Python"
     sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
@@ -135,17 +130,28 @@ instalar_asdf_apps() {
 
     asdf install python latest
     asdf global python latest
-  else
-    echo "[PYTHON JÁ ESTÁ INSTALADO]"
-  fi
 }
 
 instalar_apps_via_git_go_e_curl() {
   ( 
     cd ~    
+
+    #####
+    # Instala o ho_my_zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    # Link simbólico com o zshrc pessoal
+    if [ -f "~/.zshrc" ]; then
+      echo "Deletando ZSHRC"
+      rm "~/.zshrc"
+      stow "~/dotfiles/zshrc"
+      echo "ZSHRC substituido com sucesso."
+    fi
+    #####
+
     # Instala o oh-my-posh
     echo "Instalando oh-my-posh..."
     curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { echo "Erro ao instalar oh-my-posh"; exit 1; }
+
 
     # Instala o Kitty
     echo "Instalando Kitty..."
@@ -175,8 +181,9 @@ instalar_apps_cargo() {
   cargo install exa bat 
 }
 
-# atualizar_sistema
-# baixar_e_instalar_programas_apt
+atualizar_sistema
+baixar_e_instalar_programas_apt
+
 # Adicionando links simbólicos
 symbolic_links="$PWD/symbolic_link.sh"
 . "$symbolic_links"
@@ -184,6 +191,8 @@ symbolic_links="$PWD/symbolic_link.sh"
 instalar_asdf
 adicionar_asdf_plugins
 instalar_asdf_apps
+
+instalar_apps_cargo
 
 instalar_apps_via_git_go_e_curl
 
