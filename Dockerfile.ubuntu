@@ -8,6 +8,6 @@ COPY . /home/dotfiles
 
 RUN apt-get update && apt-get install -y sudo
 
-RUN test -f /home/dotfiles/pop_os/install.sh && chmod +x /home/dotfiles/pop_os/install.sh
+RUN test -f /home/dotfiles/ubuntu_based/install.sh && chmod +x /home/dotfiles/ubuntu_based/install.sh
 
 CMD ["/bin/bash"]

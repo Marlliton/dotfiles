@@ -23,6 +23,7 @@ return {
         "pyright",
         "gopls",
         "yamlls",
+        "dockerls",
         -- add more arguments for adding more language servers
       },
     },
