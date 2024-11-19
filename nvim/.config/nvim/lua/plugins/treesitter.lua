@@ -19,6 +19,7 @@ return {
       "css",
       "scss",
       "bash",
+      "dockerfile",
       -- add more arguments for adding more treesitter parsers
     },
   },

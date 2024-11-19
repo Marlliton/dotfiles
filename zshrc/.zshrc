@@ -1,5 +1,12 @@
-# WARN: Only in WSL
-#export PATH=$PATH:/home/marlliton/.local/bin 
+# Verifica se ~/.local/bin já está no PATH
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
+# Verifica se ~/.local/kitty.app/bin já está no PATH
+if [[ ":$PATH:" != *":$HOME/.local/kitty.app/bin:"* ]]; then
+  export PATH="$HOME/.local/kitty.app/bin:$PATH"
+fi
 
 # PLUGINS
 plugins=(
@@ -28,7 +35,6 @@ alias update-nvim-master='asdf uninstall neovim ref:master && asdf install neovi
 # GO
 . ~/.asdf/plugins/golang/set-env.zsh
 export PATH="$HOME/.asdf/installs/golang/1.23.0/bin:$PATH"
-# alias air=~/.asdf/installs/golang/1.23.0/bin/air
 # GO
 
 # LOAD PRIVATE TOKENS
@@ -47,8 +53,5 @@ alias ll="exa --icons -l"
 alias la="exa --icons -la"
 alias cat="bat --style=auto"
 # RUST ALTERNATIVES
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 eval "$(oh-my-posh init zsh --config ~/dotfiles/zshrc/ho_my_posh.json)"

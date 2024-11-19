@@ -1,6 +1,7 @@
 #!/bin/bash
 
 RED=$'\e[0;31m'
+BLUE=$'\e[0;34m'
 RESET=$'\e[0m'
 
 # Verificar se o stow está instalado
@@ -35,7 +36,7 @@ DOTFILES_DIR="$HOME/dotfiles"
 cd "$DOTFILES_DIR" || exit 1
 
 for dir in "${CONFIG_DIRS[@]}"; do
-  echo "[SOTW] processando o diretório: $dir"
+  echo "${BLUE}[SOTW] processando o diretório: $dir ${RESET}"
   stow -v "$dir" -t "$HOME"
 done
 
