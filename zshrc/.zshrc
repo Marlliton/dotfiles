@@ -17,11 +17,11 @@ plugins=(
 )
 # PLUGINS
 
-# LOAD oh-my-zsh
+# LOAD OH MY ZSH
 export ZSH="$HOME/.oh-my-zsh"
 
 source $ZSH/oh-my-zsh.sh
-# LOAD oh-my-zsh
+# LOAD OH MY ZSH
 
 # ASDF
 . "$HOME/.asdf/asdf.sh"

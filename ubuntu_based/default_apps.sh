@@ -22,6 +22,9 @@ PROGRAMAS_APT=(
   "stow"
   "zsh"
   "ripgrep" # TODO: Adicionar todos os programas 
+  "gimp"
+  "handbrake"
+  "vlc"
 )
 
 atualizar_sistema() {
@@ -180,6 +183,31 @@ instalar_apps_cargo() {
   echo "[CARGO] instalando apps {exa, bat}"
   cargo install exa bat 
 }
+deletar_lixo() {
+  echo "${YELLOW}Verificando se o zshrc existe${RESET}"
+  if [ -f "$HOME/.zshrc" ]; then
+    echo "${RED}Deletando ZSHRC${RESET}"
+    rm "$HOME/.zshrc"
+
+    cd "$HOME/dotfiles"
+
+    stow zshrc
+    echo "${GREEN}ZSHRC substituido com sucesso.${RESET}"
+  fi
+
+
+  # Verificar se o diretório lazygit existe e removê-lo
+  if [ -d "$HOME/lazygit" ]; then
+    echo "Removendo diretório lazygit..."
+    rm -rf "$HOME/lazygit"
+  fi
+
+  # Verificar se o arquivo lazygit.tar.gz existe e removê-lo
+  if [ -f "$HOME/lazygit.tar.gz" ]; then
+    echo "Removendo arquivo lazygit.tar.gz..."
+    rm "$HOME/lazygit.tar.gz"
+  fi
+}
 
 atualizar_sistema
 baixar_e_instalar_programas_apt
@@ -196,28 +224,7 @@ instalar_apps_cargo
 
 instalar_apps_via_git_go_e_curl
 
+deletar_lixo
+
 echo "${GREEN}todos os aplicativos foram instalados"
 
-echo "${YELLOW}Verificando se o zshrc existe${RESET}"
-if [ -f "$HOME/.zshrc" ]; then
-  echo "${RED}Deletando ZSHRC${RESET}"
-  rm "$HOME/.zshrc"
-
-  cd "$HOME/dotfiles"
-
-  stow zshrc
-  echo "${GREEN}ZSHRC substituido com sucesso.${RESET}"
-fi
-
-
-# Verificar se o diretório lazygit existe e removê-lo
-if [ -d "$HOME/lazygit" ]; then
-  echo "Removendo diretório lazygit..."
-  rm -rf "$HOME/lazygit"
-fi
-
-# Verificar se o arquivo lazygit.tar.gz existe e removê-lo
-if [ -f "$HOME/lazygit.tar.gz" ]; then
-  echo "Removendo arquivo lazygit.tar.gz..."
-  rm "$HOME/lazygit.tar.gz"
-fi
