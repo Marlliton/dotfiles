@@ -22,7 +22,7 @@ PROGRAMAS_PACMAN=(
   "keepassxc"
   "stow"
   "zsh"
-  "ripgrep" # TODO: Adicionar todos os programas 
+  "ripgrep" 
   "gimp"
   "handbrake"
   "vlc"
@@ -30,6 +30,10 @@ PROGRAMAS_PACMAN=(
   "wofi"
   "dolphin"
   "flatpak" 
+  "openssh"
+  "tmux"
+  "wl-clipboard"
+  "github-cli"
 )
 
 atualizar_sistema() {
