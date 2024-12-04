@@ -24,8 +24,7 @@ PROGRAMAS_PACMAN=(
   "zsh"
   "ripgrep" 
   "gimp"
-  "handbrake"
-  "vlc"
+  "hyprland"
   "kitty"
   "wofi"
   "dolphin"
@@ -34,6 +33,20 @@ PROGRAMAS_PACMAN=(
   "tmux"
   "wl-clipboard"
   "github-cli"
+  "vim"
+  # audio e video
+  "handbrake"
+  "vlc"
+  "gst-libav"
+  "gst-plugins-bad"
+  "gst-plugins-good"
+  "gst-plugins-ugly"
+  "ffmpeg"
+  "gstreamer"
+  # portais
+  "xdg-desktop-portal"
+  "xdg-desktop-portal-hyprland"
+  "archlinux-xdg-menu"
 )
 
 atualizar_sistema() {
