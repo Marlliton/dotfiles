@@ -171,6 +171,12 @@ instalar_apps_via_git_go_e_curl() {
     # Link simbólico com o zshrc pessoal
     #####
 
+    echo "Clonando ZSH-SYNTAX-HIGHLIGHTING"
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+    echo "Clonando ZSH-AUTOSUGGESTIONS"
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
     # Instala o oh-my-posh
     echo "Instalando oh-my-posh..."
     curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { echo "Erro ao instalar oh-my-posh"; exit 1; }
