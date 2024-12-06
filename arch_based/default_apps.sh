@@ -14,19 +14,9 @@ PROGRAMAS_FLATPAK=(
   "com.obsproject.Studio"
 )
 
-PROGRAMAS_YAY=(
-  "hyprshot"
-  "swaync"
-  "hyprlock"
-  "hypridle"
-  "hyprpaper"
-  "ttf-cascadia-code-nerd"
-  "nwg-look"
-  "catppuccin-gtk-theme-mocha"
-)
-
 PROGRAMAS_PACMAN=(
   "git"
+  "base-devel"
   "curl"
   "unzip"
   "gparted"
@@ -35,11 +25,7 @@ PROGRAMAS_PACMAN=(
   "zsh"
   "ripgrep" 
   "gimp"
-  "hyprland"
-  "waybar"
   "kitty"
-  "wofi"
-  "dolphin"
   "flatpak" 
   "openssh"
   "tmux"
@@ -47,7 +33,6 @@ PROGRAMAS_PACMAN=(
   "github-cli"
   "vim"
   # audio e video
-  "pavucontrol"
   "handbrake"
   "vlc"
   "gst-libav"
@@ -56,10 +41,6 @@ PROGRAMAS_PACMAN=(
   "gst-plugins-ugly"
   "ffmpeg"
   "gstreamer"
-  # portais
-  "xdg-desktop-portal"
-  "xdg-desktop-portal-hyprland"
-  "archlinux-xdg-menu"
 )
 
 atualizar_sistema() {
@@ -76,6 +57,27 @@ baixar_e_instalar_programas_pacman() {
       echo "${BLUE}[PROGRAMA < $programa > JÁ EXISTE]${RESET}"
     fi
   done
+}
+
+verificar_e_instalar_yay() {
+  if ! command -v yay >/dev/null 2>&1; then
+    (
+      cd ~
+      echo "${RED}[YAY NÃO ENCONTRADO. INSTALANDO...]${RESET}"
+      sudo pacman -S --needed git base-devel
+      git clone https://aur.archlinux.org/yay-bin.git
+      cd yay-bin || exit
+      makepkg -si --noconfirm
+      cd .. && rm -rf yay-bin
+      echo "${GREEN}[YAY INSTALADO COM SUCESSO]${RESET}"
+    )
+  else
+    echo "${GREEN}[YAY JÁ ESTÁ INSTALADO]${RESET}"
+  fi
+
+  echo "${RED}[INSTALANDO FONTE CASCADIA CODE NERD FONT...]${RESET}"
+  yay -S ttf-cascadia-code-nerd --noconfirm
+  echo "${GREEN}[CASCADIA FONTE INSTALADA COM SUCESSO]${RESET}"
 }
 
 baixar_e_instalar_programas_flatpak() {
@@ -166,7 +168,7 @@ instalar_asdf_apps() {
   # Para o Python
     echo "${YELLOW}[INSTALANDO] Python${RESET}"
     echo "${RED}[INFO] instalndon dependeincias do asdf Python${RESET}"
-    sudo pacman -S --needed base-devel zlib openssl xz tk sqlite3 libffi
+    sudo pacman -S --needed zlib openssl xz tk sqlite3 libffi
 
     asdf install python latest
     asdf global python latest
@@ -242,17 +244,36 @@ deletar_lixo() {
     rm "$HOME/lazygit.tar.gz"
   fi
 }
+definir_links_limbolico() {
+  ( 
+    CONFIG_DIRS=(
+      "backgrounds"
+      "kitty"
+      "nvim"
+      "tmux"
+      "zshrc"
+    )
+    DOTFILES_DIR="$HOME/dotfiles"
+
+    cd "$DOTFILES_DIR" || exit 1
+
+    for dir in "${CONFIG_DIRS[@]}"; do
+      echo "${BLUE}[SOTW] processando o diretório: $dir ${RESET}"
+      stow -v "$dir" -t "$HOME"
+    done
+
+    echo "[INFO] Processo de cofniguração de links simbólicos finalizado" 
+  )
+}
 
 atualizar_sistema
 baixar_e_instalar_programas_pacman
 
-# Adicionando links simbólicos
-symbolic_links="$PWD/symbolic_link.sh"
-. "$symbolic_links"
-
 instalar_asdf
 adicionar_asdf_plugins
 instalar_asdf_apps
+
+verificar_e_instalar_yay
 
 instalar_apps_cargo
 
