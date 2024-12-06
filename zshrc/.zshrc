@@ -23,6 +23,10 @@ export ZSH="$HOME/.oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
 # LOAD OH MY ZSH
 
+# HYPRSHOT_DIR
+# export HYPRSHOT_DIR="$HOME/Pictures/screenshot"
+# HYPRSHOT_DIR
+
 # ASDF
 . "$HOME/.asdf/asdf.sh"
 . "$HOME/.asdf/completions/asdf.bash"

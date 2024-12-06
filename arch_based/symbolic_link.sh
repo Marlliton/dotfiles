@@ -30,6 +30,11 @@ CONFIG_DIRS=(
   "nvim"
   "tmux"
   "zshrc"
+  "hyprpaper"
+  "waybar"
+  "wofi"
+  "hyprlock"
+  "hyprmocha"
 )
 DOTFILES_DIR="$HOME/dotfiles"
 

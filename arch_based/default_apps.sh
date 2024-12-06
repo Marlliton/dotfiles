@@ -14,6 +14,17 @@ PROGRAMAS_FLATPAK=(
   "com.obsproject.Studio"
 )
 
+PROGRAMAS_YAY=(
+  "hyprshot"
+  "swaync"
+  "hyprlock"
+  "hypridle"
+  "hyprpaper"
+  "ttf-cascadia-code-nerd"
+  "nwg-look"
+  "catppuccin-gtk-theme-mocha"
+)
+
 PROGRAMAS_PACMAN=(
   "git"
   "curl"
@@ -25,6 +36,7 @@ PROGRAMAS_PACMAN=(
   "ripgrep" 
   "gimp"
   "hyprland"
+  "waybar"
   "kitty"
   "wofi"
   "dolphin"
@@ -35,6 +47,7 @@ PROGRAMAS_PACMAN=(
   "github-cli"
   "vim"
   # audio e video
+  "pavucontrol"
   "handbrake"
   "vlc"
   "gst-libav"
