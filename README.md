@@ -7,7 +7,7 @@
 ---
 
 - [asdf](https://asdf-vm.com/guide/getting-started.html#_1-install-dependencies)
-  **Insta with asdf the languages [golang](https://github.com/asdf-community/asdf-golang), [nodejs](https://github.com/asdf-vm/asdf-nodejs) and [python](https://github.com/asdf-community/asdf-python)**
+  **Install with asdf the languages [golang](https://github.com/asdf-community/asdf-golang), [nodejs](https://github.com/asdf-vm/asdf-nodejs) and [python](https://github.com/asdf-community/asdf-python)**
 - [stow](https://www.gnu.org/software/stow/)
 - [oh my posh](https://ohmyposh.dev/docs/installation/linux)
 - [tmux plugin Manager](https://github.com/tmux-plugins/tpm)
