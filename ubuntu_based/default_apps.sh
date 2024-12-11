@@ -24,6 +24,10 @@ PROGRAMAS_APT=(
   "ripgrep" # TODO: Adicionar todos os programas 
   "gimp"
   "handbrake"
+  "audacious"
+  "alacarte"
+  "xclip"
+  "tmux"
   "vlc"
 )
 
@@ -45,7 +49,8 @@ baixar_e_instalar_programas_apt() {
 
 baixar_e_instalar_programas_flatpak() {
   if ! command -v flatpak >/dev/null 2>&1; then
-   sudo apt install flatpak
+    sudo apt install flatpak
+    flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
   fi
 
   for programa in "${PROGRAMAS_FLATPAK[@]}"
