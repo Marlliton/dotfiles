@@ -182,8 +182,11 @@ instalar_apps_via_git_go_e_curl() {
     sudo install lazygit -D -t /usr/local/bin/
     
     # Instala o delve
-    echo "Instalando Delve..."
+    echo "${YELLOW}Instalando Delve...${RESET}"
     go install github.com/go-delve/delve/cmd/dlv@latest
+    # Instala o air
+    echo "${YELLOW}Instalando air...${RESET}"
+    go install github.com/air-verse/air@latest
     
     # Reshima o Golang com asdf
     echo "Reshima o Golang..."
