@@ -240,5 +240,7 @@ instalar_apps_via_git_go_e_curl
 
 deletar_lixo
 
+baixar_e_instalar_programas_flatpak
+
 echo "${GREEN}todos os aplicativos foram instalados"
 
