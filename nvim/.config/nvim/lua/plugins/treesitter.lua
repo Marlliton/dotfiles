@@ -21,6 +21,7 @@ return {
       "scss",
       "bash",
       "dockerfile",
+      "prisma",
       -- add more arguments for adding more treesitter parsers
     },
   },

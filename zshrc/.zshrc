@@ -47,6 +47,12 @@ if [ -f ~/dotfiles/zshrc/.zshrc.private ]; then
 fi
 # LOAD PRIVATE TOKENS
 
+# LOAD TEMP VARIABLES
+if [ -f ~/dotfiles/zshrc/.zshrc.temp ]; then
+	source ~/dotfiles/zshrc/.zshrc.temp
+fi
+# LOAD TEMP VARIABLES
+
 # CARGO
 export PATH="$HOME/.cargo/bin:$PATH"
 # CARGO

@@ -1,4 +1,5 @@
 *.private
+*.temp
 
 # tmux
 tmux/.config/tmux/plugins/
