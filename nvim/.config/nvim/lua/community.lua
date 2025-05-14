@@ -11,6 +11,7 @@ return {
   -- LSP
   { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.rust" },
+  -- { import = "astrocommunity.pack.tailwindcss" },
 
   -- themes
   { import = "astrocommunity.colorscheme.vim-dogrun" },

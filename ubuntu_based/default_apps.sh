@@ -1,10 +1,19 @@
 #!/bin/bash
 
+set -e  # Interrompe o script em caso de erro
+
 RED=$'\e[0;31m'
 GREEN=$'\e[0;32m'
 YELLOW=$'\e[0;33m'
 BLUE=$'\e[0;34m'
 RESET=$'\e[0m'
+
+LOG_FILE="install.log"
+
+log_info() { echo -e "${BLUE}[INFO] $1${RESET}" | tee -a "$LOG_FILE"; }
+log_warn() { echo -e "${YELLOW}[WARN] $1${RESET}" | tee -a "$LOG_FILE"; }
+log_error() { echo -e "${RED}[ERROR] $1${RESET}" | tee -a "$LOG_FILE"; }
+log_success() { echo -e "${GREEN}[SUCCESS] $1${RESET}" | tee -a "$LOG_FILE"; }
 
 PROGRAMAS_FLATPAK=(
   "com.discordapp.Discord"
@@ -14,69 +23,55 @@ PROGRAMAS_FLATPAK=(
 )
 
 PROGRAMAS_APT=(
-  "git"
-  "curl"
-  "unzip"
-  "gparted"
-  "keepassxc"
-  "stow"
-  "zsh"
-  "ripgrep" # TODO: Adicionar todos os programas 
-  "gimp"
-  "handbrake"
-  "audacious"
-  "alacarte"
-  "xclip"
-  "tmux"
-  "vlc"
+  "git" "curl" "unzip" "gparted" "keepassxc" "stow" "zsh" "ripgrep" "gimp" "handbrake" "audacious" "alacarte" "xclip" "tmux" "vlc"
 )
 
 atualizar_sistema() {
+  log_info "Atualizando sistema..."
   sudo apt update && sudo apt full-upgrade -y
 }
 
-baixar_e_instalar_programas_apt() {
-  for programa in "${PROGRAMAS_APT[@]}";
-  do
+instalar_programas_apt() {
+  log_info "Instalando programas via APT..."
+  for programa in "${PROGRAMAS_APT[@]}"; do
     if ! dpkg -s "$programa" >/dev/null 2>&1; then
-      echo "${BLUE}[INSTALANDO] $programa via [APT]${RESET}"
-      sudo apt install "$programa" -y
-    else 
-      echo "${BLUE}[PROGRAMA < $programa > JÁ EXISTE]${RESET}"
+      log_info "Instalando $programa via APT"
+      sudo apt install -y "$programa"
+    else
+      log_warn "$programa já está instalado."
     fi
   done
 }
 
-baixar_e_instalar_programas_flatpak() {
+instalar_flatpak() {
+  log_info "Instalando programas via Flatpak..."
   if ! command -v flatpak >/dev/null 2>&1; then
-    sudo apt install flatpak
+    sudo apt install -y flatpak
     flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
   fi
 
-  for programa in "${PROGRAMAS_FLATPAK[@]}"
-  do
+  for programa in "${PROGRAMAS_FLATPAK[@]}"; do
     if ! flatpak list | grep -q "$programa"; then
-      # Instalando programa
-      echo "${BLUE}[INSTALANDO] $programa:${RESET}"
+      log_info "Instalando $programa via Flatpak"
       flatpak install flathub "$programa" -y
     else
-      echo "${BLUE}[PROGRAMA < $programa > JÁ EXISTE]${RESET}"
+      log_warn "$programa já está instalado via Flatpak."
     fi
   done
 }
 
 instalar_asdf() {
+  log_info "Instalando ASDF..."
   if [ ! -d "$HOME/.asdf" ]; then
     git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.1
-  else 
-    echo "${YELLOW}ASDF já está instalado${RESET}"
+    . "$HOME/.asdf/asdf.sh"
+  else
+    log_warn "ASDF já está instalado."
   fi
 }
 
-# Adicionar plugins ao asdf
 adicionar_asdf_plugins() {
-  echo "${BLUE}[ADICIONANDO PLUGINS AO ASDF]${RESET}"
-
+  log_info "Adicionando plugins ao ASDF..."
   plugins=(
     "nodejs https://github.com/asdf-vm/asdf-nodejs.git"
     "neovim"
@@ -86,161 +81,43 @@ adicionar_asdf_plugins() {
     "rust https://github.com/asdf-community/asdf-rust.git"
   )
 
-  if ! command -v asdf >/dev/null 2>&1; then
-    echo "${YELLOW}Adicionando temporariamente o ASDF as PATH${RESET}"
-    [ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
-  fi
-
   for plugin in "${plugins[@]}"; do
     plugin_name=$(echo "$plugin" | awk '{print $1}')
     if ! asdf plugin list | grep -q "^$plugin_name\$"; then
-      echo "${BLUE}[ADICIONANDO PLUGIN] $plugin_name ${RESET}"
+      log_info "Adicionando plugin $plugin_name"
       asdf plugin add $plugin
     else
-      echo "${YELLOW}[PLUGIN < $plugin_name > JÁ EXISTE]${RESET}"
+      log_warn "Plugin $plugin_name já está instalado."
     fi
   done
 }
 
-instalar_asdf_apps() {
-  echo "${BLUE}[INSTALANDO VERSÕES COM ASDF]${RESET}"
+install_docker() {
+  log_info "Instalando Docker..."
+  sudo apt-get remove -y docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc || true
+  sudo apt-get update
+  sudo apt-get install -y ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-  # Para o Rust.js
-    echo "${YELLOW}[INSTALANDO] Rust${RESET}"
-    asdf install rust latest
-    asdf global rust latest
-    if ! command -v cargo >/dev/null 2>&1; then
-      echo "${RED}Adicionando temporariamente o Cargo ao PATH${RESET}"
-      export PATH="$HOME/.cargo/bin:$PATH"
-    fi
-    echo "${GREEN}[SUCESSO] Rust instaldo${RESET}"
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-  # Para o Node.js
-    echo "${YELLOW}[INSTALANDO] Node.js${RESET}"
-    asdf install nodejs latest
-    asdf global nodejs latest
-    echo "${GREEN}[SUCESSO] Node.js instaldo${RESET}"
-
-  # Para o Neovim
-    echo "${YELLOW}[INSTALANDO] Neovim${RESET}"
-    asdf install neovim stable
-    asdf global neovim stable
-    echo "${GREEN}[SUCESSO] Neovim instaldo${RESET}"
-
-  # Para o Golang
-    echo "${YELLOW}[INSTALANDO] Golang${RESET}"
-    asdf install golang latest
-    asdf global golang latest
-    echo "${GREEN}[SUCESSO] Golang instaldo${RESET}"
-
-  # Para o Python
-    echo "${YELLOW}[INSTALANDO] Python${RESET}"
-    echo "${RED}[INFO] instalndon dependeincias do asdf Python${RESET}"
-    sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
-        libbz2-dev libreadline-dev libsqlite3-dev curl git \
-        libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev 
-
-    asdf install python latest
-    asdf global python latest
-    
-    echo "${GREEN}[SUCESSO] Python instaldo${RESET}"
+  sudo groupadd docker || true
+  sudo usermod -aG docker "$USER"
+  log_success "Docker instalado com sucesso."
 }
 
-instalar_apps_via_git_go_e_curl() {
-  ( 
-    cd ~    
-
-    #####
-    # Instala o ho_my_zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    # Link simbólico com o zshrc pessoal
-    #####
-    
-    echo "Clonando ZSH-SYNTAX-HIGHLIGHTING"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-    echo "Clonando ZSH-AUTOSUGGESTIONS"
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-    # Instala o oh-my-posh
-    echo "Instalando oh-my-posh..."
-    curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { echo "Erro ao instalar oh-my-posh"; exit 1; }
-
-
-    # Instala o Kitty
-    echo "Instalando Kitty..."
-    curl -fsSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin || { echo "Erro ao instalar Kitty"; exit 1; }
-
-    # Clona o TPM do tmux
-    echo "Clonando o TPM para o tmux..."
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || { echo "Erro ao clonar o TPM"; exit 1; }
-
-    echo "Baixando e instalando lazygit..."
-    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
-    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-    tar xf lazygit.tar.gz lazygit
-    sudo install lazygit -D -t /usr/local/bin/
-    
-    # Instala o delve
-    echo "${YELLOW}Instalando Delve...${RESET}"
-    go install github.com/go-delve/delve/cmd/dlv@latest
-    # Instala o air
-    echo "${YELLOW}Instalando air...${RESET}"
-    go install github.com/air-verse/air@latest
-    
-    # Reshima o Golang com asdf
-    echo "Reshima o Golang..."
-    asdf reshim golang 
-  )
-}
-instalar_apps_cargo() {
-  echo "[CARGO] instalando apps {exa, bat}"
-  cargo install exa bat 
-}
-deletar_lixo() {
-  echo "${YELLOW}Verificando se o zshrc existe${RESET}"
-  if [ -f "$HOME/.zshrc" ]; then
-    echo "${RED}Deletando ZSHRC${RESET}"
-    rm "$HOME/.zshrc"
-
-    cd "$HOME/dotfiles"
-
-    stow zshrc
-    echo "${GREEN}ZSHRC substituido com sucesso.${RESET}"
-  fi
-
-
-  # Verificar se o diretório lazygit existe e removê-lo
-  if [ -d "$HOME/lazygit" ]; then
-    echo "Removendo diretório lazygit..."
-    rm -rf "$HOME/lazygit"
-  fi
-
-  # Verificar se o arquivo lazygit.tar.gz existe e removê-lo
-  if [ -f "$HOME/lazygit.tar.gz" ]; then
-    echo "Removendo arquivo lazygit.tar.gz..."
-    rm "$HOME/lazygit.tar.gz"
-  fi
+main() {
+  atualizar_sistema
+  instalar_programas_apt
+  instalar_flatpak
+  instalar_asdf
+  adicionar_asdf_plugins
+  install_docker
+  log_success "Instalação concluída com sucesso."
 }
 
-atualizar_sistema
-baixar_e_instalar_programas_apt
-
-# Adicionando links simbólicos
-symbolic_links="$PWD/symbolic_link.sh"
-. "$symbolic_links"
-
-instalar_asdf
-adicionar_asdf_plugins
-instalar_asdf_apps
-
-instalar_apps_cargo
-
-instalar_apps_via_git_go_e_curl
-
-deletar_lixo
-
-baixar_e_instalar_programas_flatpak
-
-echo "${GREEN}todos os aplicativos foram instalados"
-
+main

@@ -1,0 +1,18 @@
+FROM archlinux:latest
+
+ENV HOME=/home
+
+WORKDIR /home/dotfiles
+
+COPY . /home/dotfiles
+
+# Instala dependências básicas (bash, sudo, etc.)
+RUN pacman -Syu --noconfirm && \
+  pacman -S --noconfirm bash sudo
+
+# Dá permissão de execução ao script e opcionalmente já o executa
+RUN if [ -f /home/dotfiles/arch_based/install.sh ]; then \
+  chmod +x /home/dotfiles/arch_based/install.sh; \
+  fi
+
+CMD ["/bin/bash"]

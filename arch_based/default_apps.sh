@@ -32,6 +32,8 @@ PROGRAMAS_PACMAN=(
   "wl-clipboard"
   "github-cli"
   "vim"
+  "docker"
+  "docker-compose"
   # audio e video
   "handbrake"
   "vlc"
