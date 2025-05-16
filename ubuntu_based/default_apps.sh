@@ -1,35 +1,8 @@
 #!/bin/bash
 
+source ./logging.sh # import logs
+
 set -e  # Interrompe o script em caso de erro
-
-# Cores para os logs
-RED=$'\e[0;31m'
-GREEN=$'\e[0;32m'
-YELLOW=$'\e[0;33m'
-BLUE=$'\e[0;34m'
-MAGENTA=$'\e[0;35m'
-CYAN=$'\e[0;36m'
-RESET=$'\e[0m'
-
-# Configuração de logs
-LOG_FILE="install_$(date +%Y-%m-%d_%H-%M-%S).log"
-exec > >(tee -a "$LOG_FILE") 2>&1
-
-# Funções de log melhoradas
-log() {
-    local level="$1"
-    local color="$2"
-    local message="$3"
-    local timestamp=$(date "+%Y-%m-%d %H:%M:%S")
-    echo -e "${color}[${timestamp}] [${level}] ${message}${RESET}"
-}
-
-log_info() { log "INFO" "${BLUE}" "$1"; }
-log_warn() { log "WARN" "${YELLOW}" "$1"; }
-log_error() { log "ERROR" "${RED}" "$1"; }
-log_success() { log "SUCCESS" "${GREEN}" "$1"; }
-log_debug() { log "DEBUG" "${MAGENTA}" "$1"; }
-log_step() { log "STEP" "${CYAN}" "$1"; }
 
 PROGRAMAS_FLATPAK=(
   "com.discordapp.Discord"
@@ -60,6 +33,11 @@ instalar_programas_apt() {
       log_warn "$programa já está instalado."
     fi
   done
+}
+
+gerar_links() {
+  symbolic_links="$PWD/symbolic_link.sh"
+  . "$symbolic_links"
 }
 
 instalar_flatpak() {
@@ -175,6 +153,57 @@ instalar_asdf_apps() {
   log_success "Python instalado"
 }
 
+instalar_apps_via_web() {
+  ( 
+    cd ~    
+
+    log_step "Instalando oh-my-zsh..."
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || { log_error "Erro ao instalar oh-my-zsh"; exit 1; }
+    log_success "oh-my-zsh instalado com sucesso"
+
+    log_step "Instalando oh-my-posh..."
+    curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { log_error "Erro ao instalar oh-my-posh"; exit 1; }
+    log_success "oh-my-posh instalado com sucesso"
+
+    log_step "Instalando Kitty..."
+    curl -fsSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin || { log_error "Erro ao instalar Kitty"; exit 1; }
+    log_success "Kitty instalado com sucesso"
+
+    log_step "Clonando o TPM para o tmux..."
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || { log_error "Erro ao clonar o TPM"; exit 1; }
+    log_success "TPM clonado com sucesso"
+
+    log_step "Baixando e instalando lazygit..."
+    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+    tar xf lazygit.tar.gz lazygit
+    sudo install lazygit -D -t /usr/local/bin/ || { log_error "Erro ao instalar lazygit"; exit 1; }
+    log_success "Lazygit instalado com sucesso"
+
+    log_step "Instalando Delve..."
+    go install github.com/go-delve/delve/cmd/dlv@latest || { log_error "Erro ao instalar Delve"; exit 1; }
+    log_success "Delve instalado com sucesso"
+
+    log_step "Reshimando o Golang com asdf..."
+    asdf reshim golang || { log_error "Erro ao reshimar o Golang"; exit 1; }
+    log_success "Golang reshimado com sucesso"
+
+    log_step "Instalando zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions || { log_error "Erro ao instalar zsh-autosuggestions"; exit 1; }
+    log_success "zsh-autosuggestions instalado com sucesso"
+
+    log_step "Instalando zsh-syntax-highlighting..."
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting || { log_error "Erro ao instalar zsh-syntax-highlighting"; exit 1; }
+    log_success "zsh-syntax-highlighting instalado com sucesso"
+  )
+}
+instalar_apps_cargo() {
+  log_step "Instalando cargo [exa, bat]..."
+  cargo install exa bat 
+  log_success "Apps [exa, bat] instalados com sucesso."
+}
+
+
 
 install_docker() {
   log_step "Instalando Docker..."
@@ -205,11 +234,14 @@ main() {
 
   atualizar_sistema
   instalar_programas_apt
+  gerar_links
   instalar_flatpak
   instalar_asdf
   carregar_asdf
   adicionar_asdf_plugins
   instalar_asdf_apps 
+  instalar_apps_cargo
+  instalar_apps_via_web
   install_docker
 
   log_success "Instalação concluída."

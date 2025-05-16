@@ -3,6 +3,8 @@ if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
+export SHELL=$(which zsh)
+
 # Verifica se ~/.local/kitty.app/bin já está no PATH
 if [[ ":$PATH:" != *":$HOME/.local/kitty.app/bin:"* ]]; then
   export PATH="$HOME/.local/kitty.app/bin:$PATH"
