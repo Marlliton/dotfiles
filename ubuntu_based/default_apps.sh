@@ -153,6 +153,23 @@ instalar_asdf_apps() {
   log_success "Python instalado"
 }
 
+instalar_go_apps() {
+  log_step "Instalando Delve..."
+  go install github.com/go-delve/delve/cmd/dlv@latest || { log_error "Erro ao instalar Delve"; exit 1; }
+  log_success "Delve instalado com sucesso"
+
+  log_step "Reshimando o Golang com asdf..."
+  asdf reshim golang || { log_error "Erro ao reshimar o Golang"; exit 1; }
+  log_success "Golang reshimado com sucesso"
+  
+  log_step "Instalando golang migrate"
+  curl -L https://packagecloud.io/golang-migrate/migrate/gpgkey | apt-key add -
+  echo "deb https://packagecloud.io/golang-migrate/migrate/ubuntu/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/migrate.list
+  apt-get update
+  apt-get install -y migrate
+  log_success "Migrate instalado com sucesso"
+}
+
 instalar_apps_via_web() {
   ( 
     cd ~    
@@ -179,14 +196,6 @@ instalar_apps_via_web() {
     tar xf lazygit.tar.gz lazygit
     sudo install lazygit -D -t /usr/local/bin/ || { log_error "Erro ao instalar lazygit"; exit 1; }
     log_success "Lazygit instalado com sucesso"
-
-    log_step "Instalando Delve..."
-    go install github.com/go-delve/delve/cmd/dlv@latest || { log_error "Erro ao instalar Delve"; exit 1; }
-    log_success "Delve instalado com sucesso"
-
-    log_step "Reshimando o Golang com asdf..."
-    asdf reshim golang || { log_error "Erro ao reshimar o Golang"; exit 1; }
-    log_success "Golang reshimado com sucesso"
 
     log_step "Instalando zsh-autosuggestions..."
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions || { log_error "Erro ao instalar zsh-autosuggestions"; exit 1; }
@@ -231,19 +240,25 @@ install_docker() {
 
 main() {
   log_step "Iniciando instalação..."
-
   atualizar_sistema
   instalar_programas_apt
+
   gerar_links
+
   instalar_flatpak
+
   instalar_asdf
   carregar_asdf
   adicionar_asdf_plugins
   instalar_asdf_apps 
-  instalar_apps_cargo
-  instalar_apps_via_web
-  install_docker
 
+  instalar_apps_cargo
+
+  instalar_apps_via_web
+
+  instalar_go_apps
+
+  install_docker
   log_success "Instalação concluída."
 }
 
