@@ -9,6 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     -- overrides `require("mason-lspconfig").setup(...)`
     opts = {
+      -- lsps (language server protocol)
       ensure_installed = {
         "lua_ls",
         "ts_ls",
@@ -33,13 +34,13 @@ return {
     "jay-babu/mason-null-ls.nvim",
     -- overrides `require("mason-null-ls").setup(...)`
     opts = {
+      -- formatters
       ensure_installed = {
-        "prettier", -- prettier formatter
-        "stylua", -- lua formatter
-        "isort", -- python formatter
-        "black", -- python formatter
+        "prettier",
+        "stylua",
+        "isort",
+        "black",
         "pylint",
-        "eslint-lsp",
         "yamllint",
         -- add more arguments for adding more null-ls sources
       },
