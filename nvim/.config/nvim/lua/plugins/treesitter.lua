@@ -22,6 +22,7 @@ return {
       "bash",
       "dockerfile",
       "prisma",
+      "sql",
       -- add more arguments for adding more treesitter parsers
     },
   },
