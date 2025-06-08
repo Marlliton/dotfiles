@@ -1,62 +1,34 @@
--- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- Customize Mason plugins
-
 ---@type LazySpec
 return {
-  -- use mason-lspconfig to configure LSP installations
+  -- use mason-tool-installer for automatically installing Mason packages
   {
-    "williamboman/mason-lspconfig.nvim",
-    -- overrides `require("mason-lspconfig").setup(...)`
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    -- overrides `require("mason-tool-installer").setup(...)`
     opts = {
-      -- lsps (language server protocol)
+      -- Make sure to use the names found in `:Mason`
       ensure_installed = {
-        "lua_ls",
-        "ts_ls",
-        "html",
-        "cssls",
-        "tailwindcss",
-        "svelte",
-        "lua_ls",
-        "graphql",
-        "emmet_ls",
-        "prismals",
-        "pyright",
+        -- install language servers
+        "lua-language-server",
+        "typescript-language-server",
+        "html-lsp",
+        "css-lsp",
+        "tailwindcss-language-server",
+        "emmet-ls",
+        "prisma-language-server",
         "gopls",
-        "yamlls",
-        "dockerls",
-        -- add more arguments for adding more language servers
-      },
-    },
-  },
-  -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
-  {
-    "jay-babu/mason-null-ls.nvim",
-    -- overrides `require("mason-null-ls").setup(...)`
-    opts = {
-      -- formatters
-      ensure_installed = {
-        "prettier",
+        "yaml-language-server",
+        "docker-compose-language-service",
+        "dockerfile-language-server",
+
+        -- install formatters
         "stylua",
-        "isort",
-        "black",
-        "pylint",
+        "prettier",
         "yamllint",
-        -- add more arguments for adding more null-ls sources
-      },
-    },
-  },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    require("mason-nvim-dap").setup {
-      automatic_installation = false,
-      ensure_installed = {
-        "python",
+        "eslint-lsp",
+
+        -- install any other package
+        "tree-sitter-cli",
         "delve",
-        -- add more arguments for adding more debuggers
-      },
-      handlers = {
-        function() require("dap-go").setup() end,
       },
     },
   },
