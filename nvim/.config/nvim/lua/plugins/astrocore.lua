@@ -21,15 +21,18 @@ return {
     diagnostics = {
       virtual_text = true,
       underline = true,
+      update_in_insert = true, -- WARN: pode causar problemas de desempenho
     },
     -- passed to `vim.filetype.add`
     filetypes = {
       -- see `:h vim.filetype.add` for usage
       extension = {
         -- foo = "fooscript",
+        ["env.local"] = "sh",
       },
       filename = {
         -- [".foorc"] = "fooscript",
+        [".env.local"] = "sh",
       },
       pattern = {
         -- [".*/etc/foo/.*"] = "fooscript",
@@ -43,12 +46,17 @@ return {
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
+        scrolloff = 10,
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
         -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
         -- This can be found in the `lua/lazy_setup.lua` file
       },
+    },
+
+    commands = {
+      W = { "write", desc = "Save file (command :W)" },
     },
     -- Mappings can be configured through AstroCore as well.
     -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
