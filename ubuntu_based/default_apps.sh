@@ -12,7 +12,7 @@ PROGRAMAS_FLATPAK=(
 )
 
 PROGRAMAS_APT=(
-  "git" "curl" "unzip" "gparted" "keepassxc" "stow" "zsh" "ripgrep" "gimp" "handbrake" "audacious" "alacarte" "xclip" "tmux" "vlc"
+  "git" "curl" "unzip" "gparted" "keepassxc" "stow" "fzf" "ripgrep" "gimp" "handbrake" "audacious" "alacarte" "xclip" "tmux" "vlc"
 )
 
 atualizar_sistema() {
@@ -33,6 +33,10 @@ instalar_programas_apt() {
       log_warn "$programa já está instalado."
     fi
   done
+
+  sudo add-apt-repository ppa:fish-shell/release-4
+  sudo apt update
+  sudo apt install fish -y
 }
 
 gerar_links() {
@@ -176,13 +180,13 @@ instalar_apps_via_web() {
   ( 
     cd ~    
 
-    log_step "Instalando oh-my-zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || { log_error "Erro ao instalar oh-my-zsh"; exit 1; }
-    log_success "oh-my-zsh instalado com sucesso"
-
-    log_step "Instalando oh-my-posh..."
-    curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { log_error "Erro ao instalar oh-my-posh"; exit 1; }
-    log_success "oh-my-posh instalado com sucesso"
+    # log_step "Instalando oh-my-zsh..."
+    # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || { log_error "Erro ao instalar oh-my-zsh"; exit 1; }
+    # log_success "oh-my-zsh instalado com sucesso"
+    #
+    # log_step "Instalando oh-my-posh..."
+    # curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { log_error "Erro ao instalar oh-my-posh"; exit 1; }
+    # log_success "oh-my-posh instalado com sucesso"
 
     log_step "Instalando Kitty..."
     curl -fsSL https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin || { log_error "Erro ao instalar Kitty"; exit 1; }
@@ -199,13 +203,13 @@ instalar_apps_via_web() {
     sudo install lazygit -D -t /usr/local/bin/ || { log_error "Erro ao instalar lazygit"; exit 1; }
     log_success "Lazygit instalado com sucesso"
 
-    log_step "Instalando zsh-autosuggestions..."
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions || { log_error "Erro ao instalar zsh-autosuggestions"; exit 1; }
-    log_success "zsh-autosuggestions instalado com sucesso"
-
-    log_step "Instalando zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting || { log_error "Erro ao instalar zsh-syntax-highlighting"; exit 1; }
-    log_success "zsh-syntax-highlighting instalado com sucesso"
+    # log_step "Instalando zsh-autosuggestions..."
+    # git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions || { log_error "Erro ao instalar zsh-autosuggestions"; exit 1; }
+    # log_success "zsh-autosuggestions instalado com sucesso"
+    #
+    # log_step "Instalando zsh-syntax-highlighting..."
+    # git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting || { log_error "Erro ao instalar zsh-syntax-highlighting"; exit 1; }
+    # log_success "zsh-syntax-highlighting instalado com sucesso"
   )
 }
 instalar_apps_cargo() {
