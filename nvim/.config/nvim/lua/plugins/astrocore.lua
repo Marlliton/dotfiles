@@ -47,6 +47,7 @@ return {
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
         scrolloff = 10,
+        shell = "/usr/bin/fish",
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
