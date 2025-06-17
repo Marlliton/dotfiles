@@ -1,5 +1,11 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+  # Commands to run in interactive sessions can go here
+
+  # private envs
+  set envs_file (status dirname)/envs
+  if test -f $envs_file
+    source $envs_file
+  end
 
   # load ASDF and completions
   source ~/.asdf/asdf.fish
@@ -29,11 +35,4 @@ if status is-interactive
   starship init fish | source
 
   zoxide init fish | source
-
-  fzf --fish | source
-  # CARREGAR O PLUGIN FZF.FISH (se estiver usando fisher)
-  if type -q fzf_key_bindings
-      fzf_key_bindings
-  end
-
 end

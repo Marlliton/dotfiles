@@ -21,7 +21,7 @@ return {
     diagnostics = {
       virtual_text = true,
       underline = true,
-      update_in_insert = true, -- WARN: pode causar problemas de desempenho se ativado
+      update_in_insert = true, -- WARN: pode causar problemas se ativado
     },
     -- passed to `vim.filetype.add`
     filetypes = {
@@ -47,7 +47,7 @@ return {
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
         scrolloff = 10,
-        shell = "/usr/bin/fish",
+        -- shell = "/usr/bin/fish",
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)

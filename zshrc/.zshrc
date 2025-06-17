@@ -67,3 +67,5 @@ alias cat="bat --style=auto"
 # RUST ALTERNATIVES
 
 eval "$(oh-my-posh init zsh --config ~/dotfiles/zshrc/ho_my_posh.json)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
