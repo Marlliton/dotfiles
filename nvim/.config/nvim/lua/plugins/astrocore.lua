@@ -21,7 +21,7 @@ return {
     diagnostics = {
       virtual_text = true,
       underline = true,
-      update_in_insert = true, -- WARN: pode causar problemas de desempenho
+      update_in_insert = true, -- WARN: pode causar problemas de desempenho se ativado
     },
     -- passed to `vim.filetype.add`
     filetypes = {
@@ -54,7 +54,6 @@ return {
         -- This can be found in the `lua/lazy_setup.lua` file
       },
     },
-
     commands = {
       W = { "write", desc = "Save file (command :W)" },
     },
@@ -95,7 +94,7 @@ return {
       -- Terminal mode mappings
       t = {
         -- ToggleTerm close
-        ["<C-\\>"] = { [[<C-\><C-n>:ToggleTerm<CR>]], desc = "Close Float Terminal" },
+        ["<C-\\>"] = { [[<C-\><C-n>:ToggleTerm<CR>]], desc = "Close terminal" },
       },
     },
   },
