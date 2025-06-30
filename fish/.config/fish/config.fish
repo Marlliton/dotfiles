@@ -30,7 +30,8 @@ if status is-interactive
   end
 
   # Add Go binaries to PATH
-  set -gx PATH "$HOME/.asdf/installs/golang/(asdf current golang | awk '{print $2}')/bin" $PATH
+  # set golang_version (asdf where golang)
+  # set -gx PATH "$(asdf where golang)/bin" $PATH
   
   starship init fish | source
 

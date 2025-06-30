@@ -12,7 +12,25 @@ PROGRAMAS_FLATPAK=(
 )
 
 PROGRAMAS_APT=(
-  "git" "curl" "unzip" "gparted" "keepassxc" "stow" "fzf" "ripgrep" "gimp" "handbrake" "audacious" "alacarte" "xclip" "tmux" "vlc"
+  "git"
+  "curl"
+  "unzip"
+  "gparted"
+  "keepassxc"
+  "stow"
+  "fzf"
+  "ripgrep"
+  "gimp"
+  "handbrake"
+  "audacious"
+  "alacarte"
+  "xclip"
+  "tmux"
+  "vlc"
+  "libpng-dev"
+  "libjpeg-dev"
+  "libtiff-dev"
+  "imagemagick"
 )
 
 atualizar_sistema() {
