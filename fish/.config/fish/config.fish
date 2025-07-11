@@ -1,7 +1,7 @@
 if status is-interactive
   # Commands to run in interactive sessions can go here
 
-  # private envs
+  # private envs (if file "envs" exists)
   set envs_file (status dirname)/envs
   if test -f $envs_file
     source $envs_file
