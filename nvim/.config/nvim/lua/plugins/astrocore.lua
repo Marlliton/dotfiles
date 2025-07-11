@@ -44,6 +44,7 @@ return {
         relativenumber = true, -- sets vim.opt.relativenumber
         number = true, -- sets vim.opt.number
         spell = false, -- sets vim.opt.spell
+        spelllang = { "en_us", "pt_br" },
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
         wrap = false, -- sets vim.opt.wrap
         scrolloff = 10,
