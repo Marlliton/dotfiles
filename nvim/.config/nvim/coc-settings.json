@@ -1,0 +1,18 @@
+{
+  "languageserver": {
+    "angular": {
+      "enable": true,
+      "command": "ngserver",
+      "args": [
+        "--stdio",
+        "--tsProbeLocations",
+        "/home/marlliton/.asdf/installs/nodejs/24.0.1/lib/node_modules/typescript/lib",
+        "--ngProbeLocations",
+        "/home/marlliton/.asdf/installs/nodejs/24.0.1/lib/node_modules/@angular/language-server/bin"
+      ],
+      "filetypes": ["ts", "typescript", "html", "typescriptreact"],
+      "rootPatterns": ["angular.json", "project.json"],
+      "trace.server.verbosity": "verbose"
+    }
+  }
+}
