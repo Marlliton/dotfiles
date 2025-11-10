@@ -11,7 +11,7 @@ return {
     -- Configuration table of features provided by AstroLSP
     features = {
       codelens = true, -- enable/disable codelens refresh on start
-      inlay_hints = true, -- enable/disable inlay hints on start
+      inlay_hints = false, -- enable/disable inlay hints on start
       semantic_tokens = true, -- enable/disable semantic token highlighting
       signature_help = true,
     },
@@ -44,18 +44,18 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
-      angularls = {
-        cmd = {
-          "ngserver",
-          "--stdio",
-          "--tsProbeLocations",
-          "/home/marlliton/.asdf/installs/nodejs/24.0.1/lib/node_modules/typescript/lib",
-          "--ngProbeLocations",
-          "/home/marlliton/.asdf/installs/nodejs/24.0.1/lib/node_modules/@angular/language-server/bin",
-        },
-        filetypes = { "typescript", "html", "typescriptreact", "htmlangular" },
-        root_markers = { "angular.json", "nx.json" },
-      },
+      -- angularls = {
+      --   cmd = {
+      --     "ngserver",
+      --     "--stdio",
+      --     "--tsProbeLocations",
+      --     "/home/marlliton/.asdf/installs/nodejs/24.0.1/lib/node_modules/typescript/lib",
+      --     "--ngProbeLocations",
+      --     "/home/marlliton/.asdf/installs/nodejs/24.0.1/lib/node_modules/@angular/language-server/bin",
+      --   },
+      --   filetypes = { "typescript", "html", "typescriptreact", "htmlangular" },
+      --   root_markers = { "angular.json", "nx.json" },
+      -- },
     },
     -- customize how language servers are attached
     handlers = {

@@ -6,6 +6,9 @@
 return {
   "AstroNvim/astrocommunity",
   { import = "astrocommunity.pack.lua" },
+  { import = "astrocommunity.pack.vue" },
+  { import = "astrocommunity.pack.go" },
+  -- { import = "astrocommunity.pack.angular" },
   -- import/override with your plugins folder
 
   -- plugins
