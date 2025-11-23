@@ -38,14 +38,6 @@ return {
     words = { enabled = true },
   },
   keys = {
-    -- explorer
-    {
-      "<leader>e",
-      function()
-        Snacks.explorer()
-      end,
-      desc = "Snacks Explorer",
-    },
     -- Top Pickers & Explorer
     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
