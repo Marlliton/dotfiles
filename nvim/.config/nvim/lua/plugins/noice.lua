@@ -5,6 +5,11 @@ return {
       cmdline = {
         view = "cmdline",
       },
+      lsp = {
+        hover = {
+          silent = true,
+        },
+      },
     },
   },
 }

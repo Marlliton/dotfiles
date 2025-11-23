@@ -38,10 +38,8 @@ return {
       local names = {}
       local filetype = vim.bo.filetype
 
-      -- Obtém os linters configurados para o filetype atual
       local linters = lint.linters_by_ft[filetype] or {}
 
-      -- Para linters que são tabelas (com configuração), pega o nome
       for _, linter in ipairs(linters) do
         if type(linter) == "string" then
           table.insert(names, linter)
@@ -83,17 +81,17 @@ return {
 
         local lsp_names = get_lsp_names()
         if #lsp_names > 0 then
-          table.insert(parts, " " .. table.concat(lsp_names, ", "))
+          table.insert(parts, "󰘦 " .. table.concat(lsp_names, ", "))
         end
 
         local formatter_names = get_formatter_names()
         if #formatter_names > 0 then
-          table.insert(parts, " " .. table.concat(formatter_names, ", "))
+          table.insert(parts, "󰃨 " .. table.concat(formatter_names, ", "))
         end
 
         local linter_names = get_linter_names()
         if #linter_names > 0 then
-          table.insert(parts, " " .. table.concat(linter_names, ", "))
+          table.insert(parts, "󰱺 " .. table.concat(linter_names, ", "))
         end
 
         return table.concat(parts, " ")
@@ -101,7 +99,10 @@ return {
       cond = function()
         return has_lsp_clients() or has_available_formatters() or has_available_linters()
       end,
-      color = { fg = "#88B04B" },
+      color = function()
+        local theme = require("lualine.utils.utils").extract_highlight_colors("Comment", "fg")
+        return { fg = theme or "#88B04B" } -- Fallback para a cor original
+      end,
     })
   end,
 }
