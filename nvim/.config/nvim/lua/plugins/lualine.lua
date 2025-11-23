@@ -1,6 +1,6 @@
 return {
-  "nvil-lualine/lualine.nvim",
-  dependencies = { "stevearc/conform.nvim" },
+  "nvim-lualine/lualine.nvim",
+  dependencies = { "stevearc/conform.nvim", "mfussenegger/nvim-lint" },
   opts = function(_, opts)
     local function get_lsp_names()
       local clients = vim.lsp.get_clients({ bufnr = 0 })
@@ -29,6 +29,30 @@ return {
       return names
     end
 
+    local function get_linter_names()
+      local ok, lint = pcall(require, "lint")
+      if not ok then
+        return {}
+      end
+
+      local names = {}
+      local filetype = vim.bo.filetype
+
+      -- Obtém os linters configurados para o filetype atual
+      local linters = lint.linters_by_ft[filetype] or {}
+
+      -- Para linters que são tabelas (com configuração), pega o nome
+      for _, linter in ipairs(linters) do
+        if type(linter) == "string" then
+          table.insert(names, linter)
+        elseif linter and linter.name then
+          table.insert(names, linter.name)
+        end
+      end
+
+      return names
+    end
+
     local function has_lsp_clients()
       return not vim.tbl_isempty(vim.lsp.get_clients({ bufnr = 0 }))
     end
@@ -42,11 +66,15 @@ return {
       if formatters then
         for _, fmt in ipairs(formatters) do
           if fmt.available then
-            return true -- Otimização: para ao encontrar o primeiro.
+            return true
           end
         end
       end
       return false
+    end
+
+    local function has_available_linters()
+      return #get_linter_names() > 0
     end
 
     table.insert(opts.sections.lualine_x, 1, {
@@ -63,10 +91,15 @@ return {
           table.insert(parts, " " .. table.concat(formatter_names, ", "))
         end
 
+        local linter_names = get_linter_names()
+        if #linter_names > 0 then
+          table.insert(parts, " " .. table.concat(linter_names, ", "))
+        end
+
         return table.concat(parts, " ")
       end,
       cond = function()
-        return has_lsp_clients() or has_available_formatters()
+        return has_lsp_clients() or has_available_formatters() or has_available_linters()
       end,
       color = { fg = "#88B04B" },
     })
