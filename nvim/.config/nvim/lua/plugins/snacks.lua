@@ -26,6 +26,13 @@ return {
       desc = "Toggle floating terminal",
     },
     {
+      "<leader>/",
+      function()
+        Snacks.picker.grep({ cwd = vim.fn.getcwd() })
+      end,
+      desc = "Grep (cwd)",
+    },
+    {
       "<leader>E",
       function()
         Snacks.explorer.open({ root = true })
