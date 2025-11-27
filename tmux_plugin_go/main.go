@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 )
 
 const (
@@ -18,6 +19,13 @@ const (
 	clip = "clip"
 	// mac
 	pbcopy = "pbcopy"
+)
+
+const (
+	colorReset = "\033[0m"
+	colorGreen = "\033[32m"
+	colorWhite = "\033[97m"
+	colorCyan  = "\033[36m"
 )
 
 func main() {
@@ -127,8 +135,8 @@ func pipTo(tool, text string, args ...string) error {
 		return err
 	}
 
-	io.WriteString(input, text)
-	input.Close()
+	_, _ = io.WriteString(input, text)
+	_ = input.Close()
 	return cmd.Wait()
 }
 
@@ -138,14 +146,30 @@ func hasBinary(name string) bool {
 }
 
 func displayPopup(text string) error {
-	return exec.Command("tmux", "display-popup", "-E",
-		"printf \"%s\n\nPressione ENTER para fechar...\" \""+text+"\"; read _").Run()
+	colored := fmt.Sprintf(
+		"%s ✔ Copied text!%s\n\n"+
+			"%s%s%s\n\n"+
+			"%s Press ENTER to close...%s",
+		colorGreen, colorReset,
+		colorWhite, text, colorReset,
+		colorCyan, colorReset,
+	)
+
+	return exec.Command(
+		"tmux", "display-popup", "-E",
+		fmt.Sprintf("printf \"%s\"; read _", escapeForShell(colored)),
+	).Run()
+}
+
+func escapeForShell(s string) string {
+	// impede que aspas causem quebra na string
+	return strings.ReplaceAll(s, "\"", "\\\"")
 }
 
 func showSuccess(text string) {
 	preview := text
-	if len(text) > 80 {
-		preview = text[:80] + "..."
+	if len(text) > 350 {
+		preview = text[:350] + "..."
 	}
 
 	msg := fmt.Sprintf(
@@ -153,5 +177,5 @@ func showSuccess(text string) {
 		preview,
 	)
 
-	displayPopup(msg)
+	_ = displayPopup(msg)
 }
