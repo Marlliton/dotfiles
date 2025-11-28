@@ -15,3 +15,9 @@ vim.keymap.set("n", "<M-h>", "<<", { noremap = true })
 
 -- split window
 vim.keymap.set("n", "|", "<cmd>vsplit<CR>", { desc = "Vertical split" })
+
+-- save file
+vim.api.nvim_create_user_command("W", "w", {
+  desc = "Save file (alias for :w)",
+  bang = true,
+})
