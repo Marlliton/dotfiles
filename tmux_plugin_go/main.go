@@ -28,6 +28,8 @@ const (
 	colorCyan  = "\033[36m"
 )
 
+const tmuxPreviousMode = "@previous_pane_mode"
+
 func main() {
 	if err := run(); err != nil {
 		_ = displayPopup("Error: " + err.Error())
@@ -38,6 +40,20 @@ func main() {
 func run() error {
 	if err := ensureTmux(); err != nil {
 		return err
+	}
+
+	currentMode, err := getTmuxMode()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = setTmuxOption(tmuxPreviousMode, currentMode)
+	}()
+	previous, _ := getTmuxOption(tmuxPreviousMode)
+	justLeftCopyMode := strings.HasPrefix(previous, "copy-mode") &&
+		!strings.HasPrefix(currentMode, "copy-mode")
+	if !justLeftCopyMode {
+		return nil
 	}
 
 	text, err := getTmuxBuffer()
@@ -65,6 +81,30 @@ func ensureTmux() error {
 		return errors.New("tmux not found")
 	}
 	return nil
+}
+
+func getTmuxMode() (string, error) {
+	cmd := exec.Command("tmux", "display-message", "-p", "#{pane_mode}")
+	out, err := cmd.Output()
+	if err != nil {
+		return "", err
+	}
+	return strings.TrimSpace(string(out)), nil
+}
+
+func getTmuxOption(option string) (string, error) {
+	cmd := exec.Command("tmux", "show-options", "-gqv", option)
+	out, err := cmd.Output()
+	if err != nil {
+		return "", nil
+	}
+
+	return strings.TrimSpace(string(out)), nil
+}
+
+func setTmuxOption(option, value string) error {
+	cmd := exec.Command("tmux", "set-option", "-g", option, value)
+	return cmd.Run()
 }
 
 func getTmuxBuffer() (string, error) {
@@ -173,7 +213,7 @@ func showSuccess(text string) {
 	}
 
 	msg := fmt.Sprintf(
-		"#[fg=green]✔ Texto copiado!\n\n#[fg=white]%s",
+		"✔ Texto copiado!\n\n%s",
 		preview,
 	)
 
