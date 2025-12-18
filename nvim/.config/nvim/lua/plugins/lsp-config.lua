@@ -31,6 +31,7 @@ return {
               assignVariableTypes = false,
               rangeVariableTypes = false,
               compositeLiteralTypes = false,
+              compositeLiteralFields = false,
             },
           },
         },
