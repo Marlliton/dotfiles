@@ -1,283 +1,92 @@
-
 #!/bin/bash
 
-RED=$'\e[0;31m'
-GREEN=$'\e[0;32m'
-YELLOW=$'\e[0;33m'
-BLUE=$'\e[0;34m'
-RESET=$'\e[0m'
+source ./logging.sh
 
-PROGRAMAS_FLATPAK=(
-  "com.discordapp.Discord"
-  "io.beekeeperstudio.Studio"
-  "org.flameshot.Flameshot"
-  "com.obsproject.Studio"
-)
+set -e
 
+# Programas que existem nos repositórios oficiais
 PROGRAMAS_PACMAN=(
-  "git"
-  "base-devel"
-  "curl"
-  "unzip"
-  "gparted"
-  "keepassxc"
-  "stow"
-  "zsh"
-  "ripgrep" 
-  "gimp"
-  "kitty"
-  "flatpak" 
-  "openssh"
-  "tmux"
-  "wl-clipboard"
-  "github-cli"
-  "vim"
-  "docker"
-  "docker-compose"
-  # audio e video
-  "handbrake"
-  "vlc"
-  "gst-libav"
-  "gst-plugins-bad"
-  "gst-plugins-good"
-  "gst-plugins-ugly"
-  "ffmpeg"
-  "gstreamer"
+  "git" "base-devel" "curl" "unzip" "gparted" "keepassxc" "stow"
+  "fzf" "ripgrep" "gimp" "handbrake" "audacious" "xclip" "tmux" "vlc"
+  "docker" "docker-compose" "fish" "kitty" "lazygit" "eza" "bat" "starship"
+  "zoxide" "polkit-gnome" "archlinux-xdg-menu" "xdg-desktop-portal-hyprland"
 )
+
+# Programas que vamos buscar no AUR
+PROGRAMAS_AUR=(
+  "asdf-vm"
+)
+
+setup_yay() {
+  if ! command -v yay >/dev/null 2>&1; then
+    log_step "Instalando yay (AUR Helper)..."
+    sudo pacman -S --needed --noconfirm base-devel git
+    git clone https://aur.archlinux.org/yay.git /tmp/yay
+    cd /tmp/yay
+    makepkg -si --noconfirm
+    cd -
+    log_success "Yay instalado."
+  else
+    log_warn "Yay já está instalado."
+  fi
+}
 
 atualizar_sistema() {
-  sudo pacman -Syu --noconfirm
+  log_step "Atualizando sistema completo (Pacman + AUR)..."
+  yay -Syu --noconfirm
 }
 
-baixar_e_instalar_programas_pacman() {
-  for programa in "${PROGRAMAS_PACMAN[@]}";
-  do
-    if ! pacman -Qi "$programa" >/dev/null 2>&1; then
-      echo "${BLUE}[INSTALANDO] $programa via [PACMAN]${RESET}"
-      sudo pacman -S "$programa" --noconfirm
-    else 
-      echo "${BLUE}[PROGRAMA < $programa > JÁ EXISTE]${RESET}"
-    fi
-  done
+instalar_programas() {
+  log_step "Instalando pacotes do repositório oficial..."
+  sudo pacman -S --needed --noconfirm "${PROGRAMAS_PACMAN[@]}"
+
+  log_step "Instalando pacotes do AUR..."
+  yay -S --needed --noconfirm "${PROGRAMAS_AUR[@]}"
 }
 
-verificar_e_instalar_yay() {
-  if ! command -v yay >/dev/null 2>&1; then
-    (
-      cd ~
-      echo "${RED}[YAY NÃO ENCONTRADO. INSTALANDO...]${RESET}"
-      sudo pacman -S --needed git base-devel
-      git clone https://aur.archlinux.org/yay-bin.git
-      cd yay-bin || exit
-      makepkg -si --noconfirm
-      cd .. && rm -rf yay-bin
-      echo "${GREEN}[YAY INSTALADO COM SUCESSO]${RESET}"
-    )
-  else
-    echo "${GREEN}[YAY JÁ ESTÁ INSTALADO]${RESET}"
-  fi
-
-  echo "${RED}[INSTALANDO FONTE CASCADIA CODE NERD FONT...]${RESET}"
-  yay -S ttf-cascadia-code-nerd --noconfirm
-  echo "${GREEN}[CASCADIA FONTE INSTALADA COM SUCESSO]${RESET}"
-}
-
-baixar_e_instalar_programas_flatpak() {
-  if ! command -v flatpak >/dev/null 2>&1; then
-    sudo pacman -S flatpak --noconfirm
-  fi
-
-  for programa in "${PROGRAMAS_FLATPAK[@]}"
-  do
-    if ! flatpak list | grep -q "$programa"; then
-      # Instalando programa
-      echo "${BLUE}[INSTALANDO] $programa:${RESET}"
-      flatpak install flathub "$programa" -y
-    else
-      echo "${BLUE}[PROGRAMA < $programa > JÁ EXISTE]${RESET}"
-    fi
-  done
-}
-
-instalar_asdf() {
-  if [ ! -d "$HOME/.asdf" ]; then
-    git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.1
-  else 
-    echo "${YELLOW}ASDF já está instalado${RESET}"
+configurar_asdf() {
+  log_step "Configurando ASDF..."
+  # No Arch (via AUR), o asdf fica em /opt/asdf-vm/ ou é carregado via script
+  # Adicionamos o source necessário para a sessão atual do script
+  if [ -f /opt/asdf-vm/asdf.sh ]; then
+    . /opt/asdf-vm/asdf.sh
+  elif [ -f "$HOME/.asdf/asdf.sh" ]; then
+    . "$HOME/.asdf/asdf.sh"
   fi
 }
 
-# Adicionar plugins ao asdf
-adicionar_asdf_plugins() {
-  echo "${BLUE}[ADICIONANDO PLUGINS AO ASDF]${RESET}"
+instalar_asdf_plugins() {
+  log_step "Instalando linguagens via ASDF..."
 
-  plugins=(
-    "nodejs https://github.com/asdf-vm/asdf-nodejs.git"
-    "neovim"
-    "golang https://github.com/asdf-community/asdf-golang.git"
-    "python"
-    "dart https://github.com/patoconnor43/asdf-dart.git"
-    "rust https://github.com/asdf-community/asdf-rust.git"
-  )
+  # Dependências para compilar linguagens no Arch
+  sudo pacman -S --needed --noconfirm openssl zlib patch libffi
 
-  if ! command -v asdf >/dev/null 2>&1; then
-    echo "${YELLOW}Adicionando temporariamente o ASDF as PATH${RESET}"
-    [ -f "$HOME/.asdf/asdf.sh" ] && . "$HOME/.asdf/asdf.sh"
-  fi
+  local plugins=("nodejs" "neovim" "golang" "python" "rust")
 
   for plugin in "${plugins[@]}"; do
-    plugin_name=$(echo "$plugin" | awk '{print $1}')
-    if ! asdf plugin list | grep -q "^$plugin_name\$"; then
-      echo "${BLUE}[ADICIONANDO PLUGIN] $plugin_name ${RESET}"
-      asdf plugin add $plugin
-    else
-      echo "${YELLOW}[PLUGIN < $plugin_name > JÁ EXISTE]${RESET}"
-    fi
+    asdf plugin add "$plugin" || true
+    log_info "Instalando $plugin..."
+    asdf install "$plugin" latest
+    asdf set -u "$plugin" latest
   done
 }
 
-instalar_asdf_apps() {
-  echo "${BLUE}[INSTALANDO VERSÕES COM ASDF]${RESET}"
-
-  # Para o Rust.js
-    echo "${YELLOW}[INSTALANDO] Rust${RESET}"
-    asdf install rust latest
-    asdf global rust latest
-    if ! command -v cargo >/dev/null 2>&1; then
-      echo "${RED}Adicionando temporariamente o Cargo ao PATH${RESET}"
-      export PATH="$HOME/.cargo/bin:$PATH"
-    fi
-    echo "${GREEN}[SUCESSO] Rust instaldo${RESET}"
-
-  # Para o Node.js
-    echo "${YELLOW}[INSTALANDO] Node.js${RESET}"
-    asdf install nodejs latest
-    asdf global nodejs latest
-    echo "${GREEN}[SUCESSO] Node.js instaldo${RESET}"
-
-  # Para o Neovim
-    echo "${YELLOW}[INSTALANDO] Neovim${RESET}"
-    asdf install neovim stable
-    asdf global neovim stable
-    echo "${GREEN}[SUCESSO] Neovim instaldo${RESET}"
-
-  # Para o Golang
-    echo "${YELLOW}[INSTALANDO] Golang${RESET}"
-    asdf install golang latest
-    asdf global golang latest
-    echo "${GREEN}[SUCESSO] Golang instaldo${RESET}"
-
-  # Para o Python
-    echo "${YELLOW}[INSTALANDO] Python${RESET}"
-    echo "${RED}[INFO] instalndon dependeincias do asdf Python${RESET}"
-    sudo pacman -S --needed zlib openssl xz tk sqlite3 libffi
-
-    asdf install python latest
-    asdf global python latest
-    
-    echo "${GREEN}[SUCESSO] Python instaldo${RESET}"
+install_docker() {
+  log_step "Configurando Docker..."
+  sudo systemctl enable --now docker
+  sudo usermod -aG docker "$USER"
+  log_success "Docker pronto. (Lembre-se de deslogar para o grupo docker surtir efeito)"
 }
 
-instalar_apps_via_git_go_e_curl() {
-  ( 
-    cd ~    
+main() {
+  setup_yay
+  atualizar_sistema
+  instalar_programas
+  configurar_asdf
+  instalar_asdf_plugins
+  install_docker
 
-    #####
-    # Instala o ho_my_zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    # Link simbólico com o zshrc pessoal
-    #####
-
-    echo "Clonando ZSH-SYNTAX-HIGHLIGHTING"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-    echo "Clonando ZSH-AUTOSUGGESTIONS"
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-    # Instala o oh-my-posh
-    echo "Instalando oh-my-posh..."
-    curl -fsSL https://ohmyposh.dev/install.sh | bash -s || { echo "Erro ao instalar oh-my-posh"; exit 1; }
-
-    # Clona o TPM do tmux
-    echo "Clonando o TPM para o tmux..."
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || { echo "Erro ao clonar o TPM"; exit 1; }
-
-    echo "Baixando e instalando lazygit..."
-    LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
-    curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
-    tar xf lazygit.tar.gz lazygit
-    sudo install lazygit -D -t /usr/local/bin/
-    
-    # Instala o delve
-    echo "Instalando Delve..."
-    go install github.com/go-delve/delve/cmd/dlv@latest
-    
-    # Reshima o Golang com asdf
-    echo "Reshima o Golang..."
-    asdf reshim golang 
-  )
-}
-instalar_apps_cargo() {
-  echo "[CARGO] instalando apps {exa, bat}"
-  cargo install exa bat 
-}
-deletar_lixo() {
-  echo "${YELLOW}Verificando se o zshrc existe${RESET}"
-  if [ -f "$HOME/.zshrc" ]; then
-    echo "${RED}Deletando ZSHRC${RESET}"
-    rm "$HOME/.zshrc"
-
-    cd "$HOME/dotfiles"
-
-    stow zshrc
-    echo "${GREEN}ZSHRC substituido com sucesso.${RESET}"
-  fi
-
-
-  # Verificar se o diretório lazygit existe e removê-lo
-  if [ -d "$HOME/lazygit" ]; then
-    echo "Removendo diretório lazygit..."
-    rm -rf "$HOME/lazygit"
-  fi
-
-  # Verificar se o arquivo lazygit.tar.gz existe e removê-lo
-  if [ -f "$HOME/lazygit.tar.gz" ]; then
-    echo "Removendo arquivo lazygit.tar.gz..."
-    rm "$HOME/lazygit.tar.gz"
-  fi
-}
-definir_links_limbolico() {
-  ( 
-    CONFIG_DIRS=(
-      "backgrounds"
-      "kitty"
-      "nvim"
-      "tmux"
-      "zshrc"
-    )
-    DOTFILES_DIR="$HOME/dotfiles"
-
-    cd "$DOTFILES_DIR" || exit 1
-
-    for dir in "${CONFIG_DIRS[@]}"; do
-      echo "${BLUE}[SOTW] processando o diretório: $dir ${RESET}"
-      stow -v "$dir" -t "$HOME"
-    done
-
-    echo "[INFO] Processo de cofniguração de links simbólicos finalizado" 
-  )
+  log_success "Setup concluído com sucesso!"
 }
 
-atualizar_sistema
-baixar_e_instalar_programas_pacman
-
-instalar_asdf
-adicionar_asdf_plugins
-instalar_asdf_apps
-
-verificar_e_instalar_yay
-
-instalar_apps_cargo
-
-instalar_apps_via_git_go_e_curl
-
+main
