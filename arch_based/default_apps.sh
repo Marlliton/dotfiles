@@ -16,7 +16,7 @@ PROGRAMAS_PACMAN=(
 
 # Programas que vamos buscar no AUR
 PROGRAMAS_AUR=(
-  "asdf-vm"
+  "asdf-vm" "qt6ct-kde"
 )
 
 setup_yay() {
