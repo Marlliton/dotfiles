@@ -21,7 +21,7 @@ window#waybar > box {
   background: alpha(@base, 0.85);
   border: 1px solid alpha(@surface0, 0.3);
   border-radius: 16px;
-  padding: 0 12px;
+  padding: 0 0px;
   margin: 6px;
   box-shadow:
     0 4px 20px alpha(@crust, 0.4),
@@ -53,7 +53,7 @@ window#waybar > box {
   color: @base;
   font-size: 14px;
   padding: 0 12px;
-  margin-left: 4px;
+  margin-left: 0px; /* Alterado de 4px para 0px */
   font-weight: bold;
 }
 
@@ -257,7 +257,7 @@ window#waybar > box {
   color: @red;
   font-size: 14px;
   padding: 0 12px;
-  margin-right: 4px;
+  margin-right: 0px; /* Alterado de 4px para 0px */
 }
 
 #custom-power:hover {
@@ -290,4 +290,3 @@ tooltip {
 tooltip label {
   color: @subtext1;
 }
-
