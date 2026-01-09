@@ -13,6 +13,17 @@ configuration {
     case-sensitive: false;
 
     font: "Inter 13";
+
+    /* Navegação Vim */
+    kb-row-up: "Up,Control+K,Shift+Tab,Shift+ISO_Left_Tab";
+    kb-row-down: "Down,Control+J";
+
+    kb-accept-entry: "Control+M,Return,KP_Enter";
+
+    kb-mode-next: "Shift+Right,Control+Tab,Control+L";
+    kb-mode-previous: "Shift+Left,Control+Shift+Tab,Control+H";
+
+    kb-remove-char-back: "BackSpace";
 }
 
 @theme "current.rasi"
