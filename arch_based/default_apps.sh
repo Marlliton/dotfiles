@@ -9,8 +9,9 @@ PROGRAMAS_PACMAN=(
   "git" "base-devel" "curl" "unzip" "gparted" "keepassxc" "stow"
   "fzf" "ripgrep" "gimp" "handbrake" "audacious" "xclip" "tmux" "vlc"
   "docker" "docker-compose" "fish" "kitty" "lazygit" "eza" "bat" "starship"
-  "zoxide" "polkit-gnome" "archlinux-xdg-menu" "xdg-desktop-portal-hyprland"
+  "zoxide" "polkit-gnome" "archlinux-xdg-menu" "xdg-desktop-portal-hyprland" "xdg-desktop-portal-gtk"
   "dunst" "hyprpaper" "grim" "slurp" "swappy" "otf-font-awesome" "adwaita-icon-theme"
+  "vlc" "kdenlive" "gwenview" "btop"
 )
 
 # Programas que vamos buscar no AUR
