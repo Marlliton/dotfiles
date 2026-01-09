@@ -1,0 +1,21 @@
+configuration {
+    /* Modos ativos (a ordem define a navegação com Ctrl+Tab) */
+    modi: "drun,run,window,ssh";
+
+    show-icons: true; 
+    icon-theme: "Papirus"; 
+    disable-history: false;
+    sidebar-mode: false;
+
+    matching: "fuzzy";
+    sort: true;
+    sort-ci: true; 
+    case-sensitive: false;
+
+    location: 0; 
+    yoffset: 0;
+    xoffset: 0;
+    font: "Inter Medium 12"; 
+}
+
+@theme "current.rasi"
