@@ -1,0 +1,128 @@
+/* ~/.config/waybar/style.css */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "Mononoki Nerd Font", "Nerd Font", FontAwesome, sans-serif;
+    font-size: 14px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: rgba(24, 25, 38, 0.8);
+    color: #cdd6f4; /* Text color */
+    transition-property: background-color;
+    transition-duration: .5s;
+}
+
+#workspaces button {
+    padding: 0 10px;
+    background-color: transparent;
+    color: #cdd6f4;
+    border-radius: 10px;
+}
+
+#workspaces button:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#workspaces button.focused {
+    background-color: #89b4fa; /* Blue */
+    color: #1e1e2e; /* Dark background for focused text */
+    border-radius: 10px;
+}
+
+#workspaces button.urgent {
+    background-color: #f38ba8; /* Red for urgent */
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#tray,
+#window {
+    padding: 0 10px;
+    margin: 3px 0px;
+    color: #cdd6f4;
+}
+
+#window {
+    font-weight: bold;
+    color: #a6e3a1; /* Green */
+}
+
+#clock {
+    color: #89b4fa; /* Blue */
+}
+
+#battery {
+    color: #a6e3a1; /* Green */
+}
+
+#battery.charging, #battery.plugged {
+    color: #a6e3a1; /* Green */
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f38ba8; /* Red */
+    color: #1e1e2e;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    border-radius: 5px;
+}
+
+@keyframes blink {
+    to {
+        background-color: #f38ba8;
+        color: #1e1e2e;
+    }
+}
+
+#cpu {
+    color: #f9e2af; /* Yellow */
+}
+#cpu.warning {
+    color: #fab387; /* Orange */
+}
+#cpu.critical {
+    color: #f38ba8; /* Red */
+}
+
+#memory {
+    color: #cba6f7; /* Mauve */
+}
+#memory.warning {
+    color: #fab387; /* Orange */
+}
+#memory.critical {
+    color: #f38ba8; /* Red */
+}
+
+#network {
+    color: #89dceb; /* Cyan */
+}
+
+#network.disconnected {
+    color: #f38ba8; /* Red */
+}
+
+#pulseaudio {
+    color: #fab387; /* Peach */
+}
+
+#pulseaudio.muted {
+    color: #6c7086; /* Muted color */
+}
+
+#tray {
+    background-color: #1e1e2e;
+    padding: 0 5px;
+    margin: 3px 3px;
+    border-radius: 10px;
+}
