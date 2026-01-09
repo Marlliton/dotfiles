@@ -11,7 +11,7 @@ PROGRAMAS_PACMAN=(
   "docker" "docker-compose" "fish" "kitty" "lazygit" "eza" "bat" "starship"
   "zoxide" "polkit-gnome" "archlinux-xdg-menu" "xdg-desktop-portal-hyprland" "xdg-desktop-portal-gtk"
   "dunst" "hyprpaper" "grim" "slurp" "swappy" "otf-font-awesome" "adwaita-icon-theme"
-  "vlc" "kdenlive" "gwenview" "btop" "openssh" "rofi"
+  "vlc" "kdenlive" "gwenview" "btop" "openssh" "rofi" "noto-fonts-emoji" "ttf-firacode-nerd" "ttf-cascadia-code-nerd"
 )
 
 # Programas que vamos buscar no AUR
