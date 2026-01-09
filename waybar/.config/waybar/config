@@ -7,7 +7,7 @@
     // Módulos à esquerda
     "modules-left": [
         "hyprland/workspaces",
-        "hyprland/window"
+        "custom/window_icon"
     ],
 
     // Módulos no centro
@@ -34,6 +34,13 @@
             "active": "",
             "default": ""
         }
+    },
+    
+    "custom/window_icon": {
+        "format": "{}",
+        "tooltip": false,
+        "exec": "~/.config/waybar/scripts/get_window_icon.sh",
+        "interval": 1
     },
     
     "hyprland/window": {
