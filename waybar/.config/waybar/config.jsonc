@@ -2,11 +2,11 @@
     "layer": "top",
     "position": "top",
     "height": 38,
-    "margin-top": 6,
-    "margin-bottom": 6,
+    "margin-top": 1,
+    "margin-bottom": 0,
     "margin-left": 6,
     "margin-right": 6,
-    "spacing": 8,
+    "spacing": 4,
 
     // Módulos à esquerda
     "modules-left": [
@@ -77,8 +77,8 @@
     },
 
     "clock": {
-        "format": "󰥔 {:%H:%M} 󰸗 {:%d/%m}",
-        "tooltip-format": "<big>{:%A, %d %B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%H:%M   %d/%m/%Y }",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "interval": 10
     },
 
