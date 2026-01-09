@@ -1,10 +1,10 @@
 /*
- * Catppuccin Mocha theme for Rofi
- * Author: Marlliton
+ * Catppuccin Mocha Modern Glow
+ * Optimized for Hyprland & Wayland UX
  */
 
 * {
-    /* Catppuccin Mocha Colors */
+    /* Catppuccin Mocha Palette */
     rosewater:  #f5e0dc;
     flamingo:   #f2cdcd;
     pink:       #f5c2e7;
@@ -32,178 +32,131 @@
     mantle:     #181825;
     crust:      #11111b;
 
-    /* Theme-specific colors */
-    background:       @base;
-    background-alt:   @crust;
-    foreground:       @text;
-    selected:         @mauve;
-    active:           @green;
-    urgent:           @red;
-
-    /* Theme configuration */
-    background-color: transparent;
-    border-color:     @mauve;
-
-    /* Layout */
-    spacing:          0;
+    /* Semantic Colors con Glow */
+    background:         rgba(30, 30, 46, 0.95); /* Opacidade para efeito Glassmorphism */
+    background-alt:     #181825;
+    foreground:         @text;
+    selected:           @mauve;
+    active:             @green;
+    urgent:             @red;
+    
+    background-color:   transparent;
+    text-color:         @foreground;
+    font:               "JetBrainsMono Nerd Font 11";
 }
 
 window {
-    background-color: @background;
-    border:           2px;
-    border-radius:    15px;
-    padding:          20px;
-    width:            600px;
-    location:         center;
-    anchor:           center;
-    height:           420px;
+    width:              600px;
+    x-offset:           0px;
+    y-offset:           0px;
+    
+    enabled:            true;
+    border:             2px;
+    border-color:       @mauve;
+    border-radius:      12px;
+    background-color:   @background;
+    cursor:             "default";
 }
 
 mainbox {
-    border:  0;
-    padding: 0;
-    children: [ inputbar, listview ];
+    enabled:            true;
+    spacing:            0px;
+    padding:            20px;
+    background-color:   transparent;
+    children:           [ "inputbar", "listview" ];
 }
 
+/* --- Input Bar --- */
+
 inputbar {
-    spacing:    10px;
-    padding:    10px;
-    border-radius: 10px;
-    background-color: @mantle;
-    text-color: @foreground;
-    children:   [ prompt, entry ];
-    margin:     0px 0px 15px 0px;
+    enabled:            true;
+    spacing:            10px;
+    margin:             0px 0px 15px 0px;
+    padding:            12px;
+    border-radius:      10px;
+    background-color:   @surface0;
+    children:           [ "prompt", "entry" ];
 }
 
 prompt {
-    enabled:          true;
-    padding:          5px 8px;
-    background-color: @base;
-    text-color:       @mauve;
-    border-radius:    8px;
+    enabled:            true;
+    background-color:   inherit;
+    text-color:         @mauve;
+    font:               "JetBrainsMono Nerd Font Bold 12";
 }
 
 entry {
-    background-color:  @mantle;
-    text-color:        @foreground;
-    placeholder-color: @subtext0;
-    placeholder:       "Search...";
-    cursor:            text;
-    padding:           2px;
+    enabled:            true;
+    background-color:   inherit;
+    text-color:         inherit;
+    cursor:             text;
+    placeholder:        "Search...";
+    placeholder-color:  @overlay0;
 }
+
+/* --- List View --- */
 
 listview {
-    border:  0;
-    padding: 0px;
-    columns: 1;
-    lines:   8;
-    spacing: 5px;
-    cycle:   true;
-    dynamic: true;
-    layout:  vertical;
+    enabled:            true;
+    columns:            1;
+    lines:              8;
+    cycle:              true;
+    dynamic:            true;
+    scrollbar:          false;
+    layout:             vertical;
+    reverse:            false;
+    fixed-height:       true;
+    fixed-columns:      true;
+    
+    spacing:            5px;
+    background-color:   transparent;
 }
 
+/* --- Elements --- */
+
 element {
-    border:  0;
-    border-radius: 10px;
-    padding: 8px 12px;
-    cursor:  pointer;
+    enabled:            true;
+    spacing:            10px;
+    margin:             0px;
+    padding:            10px;
+    border-radius:      8px;
+    background-color:   transparent;
+    text-color:         @foreground;
+    cursor:             pointer;
+}
+
+element normal.normal {
+    background-color:   transparent; /* Limpo e moderno */
+    text-color:         @foreground;
+}
+
+element selected.normal {
+    background-color:   @selected;
+    text-color:         @base;
+    /* Efeito de destaque */
+    border:             0px 0px 0px 4px;
+    border-color:       @rosewater;
+}
+
+element-icon {
+    background-color:   transparent;
+    size:               24px;
+    cursor:             inherit;
 }
 
 element-text {
-    background-color:   inherit;
+    background-color:   transparent;
     text-color:         inherit;
     highlight:          inherit;
     cursor:             inherit;
     vertical-align:     0.5;
-    horizontal-align:   0.0;
 }
 
-element-icon {
-    background-color:   inherit;
-    text-color:         inherit;
-    size:               24px;
-    cursor:             inherit;
-    padding:            0 10px 0 0;
-}
+/* --- Message & Error --- */
 
-element.normal.normal {
-    background-color: @surface0;
-    text-color:       @foreground;
-}
-
-element.normal.urgent {
-    background-color: @urgent;
-    text-color:       @background;
-}
-
-element.normal.active {
-    background-color: @active;
-    text-color:       @background;
-}
-
-element.selected.normal {
-    background-color: @selected;
-    text-color:       @background;
-    border:           1px solid;
-    border-color:     @rosewater;
-}
-
-element.selected.urgent {
-    background-color: @urgent;
-    text-color:       @background;
-}
-
-element.selected.active {
-    background-color: @active;
-    text-color:       @background;
-}
-
-element.alternate.normal {
-    background-color: @surface0;
-    text-color:       @foreground;
-}
-
-element.alternate.urgent {
-    background-color: @urgent;
-    text-color:       @background;
-}
-
-element.alternate.active {
-    background-color: @active;
-    text-color:       @background;
-}
-
-scrollbar {
-    width:        3px;
-    border:       0;
-    handle-width: 6px;
-    handle-color: @mauve;
-    padding:      0;
-}
-
-message {
-    border:       2px 0px 0px;
-    border-color: @surface2;
-    padding:      5px;
-    background-color: @surface0;
-}
-
-textbox {
-    text-color: @foreground;
-}
-
-button {
-    padding:          5px;
-    background-color: @surface1;
-    text-color:       @foreground;
-    border:           1px;
-    border-radius:    5px;
-    border-color:     @overlay0;
-    cursor:           pointer;
-}
-
-button selected {
-    background-color: @selected;
-    text-color:       @background;
+error-message {
+    padding:            15px;
+    border-radius:      10px;
+    background-color:   @base;
+    text-color:         @red;
 }
