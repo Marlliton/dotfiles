@@ -1,0 +1,162 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 38,
+    "margin-top": 6,
+    "margin-bottom": 6,
+    "margin-left": 6,
+    "margin-right": 6,
+    "spacing": 8,
+
+    // Módulos à esquerda
+    "modules-left": [
+        "custom/start",
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+
+    // Módulos no centro
+    "modules-center": [
+        "clock"
+    ],
+
+    // Módulos à direita
+    "modules-right": [
+        "pulseaudio",
+        "network",
+        "cpu",
+        "memory",
+        "battery",
+        "tray",
+        "custom/power"
+    ],
+
+    // Configuração dos Módulos
+    "custom/start": {
+        "format": " 󰣇 ",
+        "tooltip": false,
+        "on-click": "rofi -show drun",
+        "on-click-right": "killall rofi || rofi -show run"
+    },
+
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "1": "󰎤",
+            "2": "󰎧",
+            "3": "󰎪",
+            "4": "󰎭",
+            "5": "󰎱",
+            "6": "󰎳",
+            "7": "󰎶",
+            "8": "󰎹",
+            "9": "󰎼",
+            "10": "󰽾"
+        },
+        "persistent_workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": [],
+            "7": [],
+            "8": [],
+            "9": [],
+            "10": []
+        },
+        "on-scroll-up": "hyprctl dispatch workspace e+1",
+        "on-scroll-down": "hyprctl dispatch workspace e-1"
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 45,
+        "separator": false,
+        "icon": false
+    },
+
+    "clock": {
+        "format": "󰥔 {:%H:%M} 󰸗 {:%d/%m}",
+        "tooltip-format": "<big>{:%A, %d %B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "interval": 10
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-muted": "󰖁 Muted",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰋎",
+            "headset": "󰋎",
+            "phone": "󰏲",
+            "portable": "󰏲",
+            "car": "󰄋",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "scroll-step": 5,
+        "on-click": "pavucontrol",
+        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    },
+
+    "network": {
+        "format-wifi": "󰖩 {essid}",
+        "format-ethernet": "󰈀 {ifname}",
+        "format-disconnected": "󰖪 Offline",
+        "tooltip-format": "󰛳 {ifname}\n󰩟 {ipaddr}/{cidr}\n󰅈 {bandwidthUpBytes} 󰅀 {bandwidthDownBytes}",
+        "on-click": "nm-connection-editor",
+        "on-click-right": "kitty nmtui"
+    },
+
+    "cpu": {
+        "format": "󰍛 {usage}%",
+        "interval": 5,
+        "states": {
+            "warning": 70,
+            "critical": 85
+        },
+        "tooltip": "󰘚 CPU Usage\n󰍛 Cores: {n_cores}\n󰾅 Freq: {avg_frequency} GHz",
+        "on-click": "kitty btop"
+    },
+
+    "memory": {
+        "format": "󰘚 {percentage}%",
+        "interval": 5,
+        "states": {
+            "warning": 70,
+            "critical": 85
+        },
+        "tooltip": "󰍛 Memory Usage\n󰘚 Used: {used:.1f}G\n󰾅 Total: {total:.1f}G\n󰆼 Swap: {swapUsed:.1f}G/{swapTotal:.1f}G",
+        "on-click": "kitty btop"
+    },
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-full": "󰁹 {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "interval": 10,
+        "tooltip-format": "{timeTo} {capacity}%\n󰂎 Health: {health}%\n󰍛 Consumption: {power:.2f}W"
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8,
+        "padding": 4
+    },
+
+    "custom/power": {
+        "format": "󰐥",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/powermenu.sh",
+        "on-click-right": "systemctl poweroff"
+    }
+}
