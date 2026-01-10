@@ -6,20 +6,38 @@ source "$SCRIPT_DIR/logging.sh"
 
 set -e
 
-# Programas que existem nos repositórios oficiais
 PROGRAMAS_PACMAN=(
-  "git" "base-devel" "curl" "unzip" "gparted" "keepassxc" "stow"
-  "fzf" "ripgrep" "gimp" "handbrake" "audacious" "xclip" "tmux" "vlc"
-  "docker" "docker-compose" "fish" "kitty" "lazygit" "eza" "bat" "starship"
-  "zoxide" "polkit-gnome" "archlinux-xdg-menu" "xdg-desktop-portal-hyprland" "xdg-desktop-portal-gtk"
-  "dunst" "hyprpaper" "grim" "slurp" "swappy" "otf-font-awesome" "adwaita-icon-theme"
-  "vlc" "kdenlive" "gwenview" "btop" "openssh" "rofi" "noto-fonts-emoji" "ttf-firacode-nerd" "ttf-cascadia-code-nerd"
-  "waybar" "jq" "pavucontrol" "openssl" "zlib" "xz" "tk" "zstd" "hyprland" "sddm" "qt5-declarative" "mesa"
+  # --- BASE DO SISTEMA & DRIVERS ---
+  "hyprland" "sddm" "mesa" "polkit-gnome" "xdg-desktop-portal-hyprland"
+  "xdg-desktop-portal-gtk" "archlinux-xdg-menu" "qt5-declarative"
+
+  # --- DESENVOLVIMENTO & COMPILAÇÃO ---
+  "base-devel" "git" "lazygit" "curl" "openssh" "openssl" "stow"
+  "docker" "docker-compose" "jq" "tk" "zlib" "xz" "zstd"
+
+  # --- TERMINAL MODERNO (CLI) ---
+  "fish" "kitty" "starship" "tmux" "btop" "fzf" "ripgrep"
+  "eza" "bat" "zoxide" "wl-clipboard" "fastfetch"
+
+  # --- INTERFACE & APARÊNCIA (HYPRLAND) ---
+  "waybar" "rofi" "dunst" "hyprpaper" "nwg-look" "kvantum"
+  "pavucontrol" "grim" "slurp" "swappy"
+
+  # --- FONTES & ÍCONES ---
+  "otf-font-awesome" "ttf-firacode-nerd" "ttf-cascadia-code-nerd"
+  "noto-fonts-emoji" "adwaita-icon-theme"
+
+  # --- GERENCIAMENTO DE ARQUIVOS & DISCO ---
+  "dolphin" "ark" "unzip" "unrar" "p7zip" "gparted" "dolphin-plugins"
+
+  # --- APLICATIVOS (GUI) ---
+  "firefox" "gedit" "keepassxc" "gimp" "kdenlive"
+  "handbrake" "vlc" "audacious" "gwenview"
 )
 
 # Programas que vamos buscar no AUR
 PROGRAMAS_AUR=(
-  "asdf-vm" "qt6ct-kde"
+  "asdf-vm" "qt6ct-kde" "catppuccin-gtk-theme-mocha"
 )
 
 setup_yay() {
