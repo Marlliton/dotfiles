@@ -1,18 +1,18 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 38,
-    "margin-top": 1,
-    "margin-bottom": 0,
-    "margin-left": 6,
-    "margin-right": 6,
-    "spacing": 4,
+    "height": 35,
+    "margin-top": 0,
+    "margin-bottom": -2,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
 
     // Módulos à esquerda
     "modules-left": [
         "custom/start",
         "hyprland/workspaces",
-        "hyprland/window"
+        "custom/window"
     ],
 
     // Módulos no centro
@@ -69,11 +69,12 @@
         "on-scroll-down": "hyprctl dispatch workspace e-1"
     },
 
-    "hyprland/window": {
+    "custom/window": {
+        "exec": "~/.config/waybar/scripts/get_window_icon.sh",
+        "return-type": "text",
         "format": "{}",
-        "max-length": 45,
-        "separator": false,
-        "icon": false
+        "interval": 1,
+        "max-length": 45
     },
 
     "clock": {
