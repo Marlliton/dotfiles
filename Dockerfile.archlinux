@@ -1,18 +1,54 @@
 FROM archlinux:latest
 
-ENV HOME=/home
+# WARN: Para rodar os testes execute:
+# docker build -t dotfiles-test -f Dockerfile.archlinux .
 
+# 1. Configuração do Ambiente e Dependências Essenciais
+# Desabilita o buffer de stdout/stderr para ver os logs em tempo real
+ENV PYTHONUNBUFFERED=1
+ENV HOME=/home/tester
 WORKDIR /home/dotfiles
 
-COPY . /home/dotfiles
-
-# Instala dependências básicas (bash, sudo, etc.)
+# Atualiza os repositórios e instala pacotes básicos para o setup
 RUN pacman -Syu --noconfirm && \
-  pacman -S --noconfirm bash sudo
+  pacman -S --noconfirm sudo bash git
 
-# Dá permissão de execução ao script e opcionalmente já o executa
-RUN if [ -f /home/dotfiles/arch_based/install.sh ]; then \
-  chmod +x /home/dotfiles/arch_based/install.sh; \
-  fi
+# 2. Criação do Usuário de Teste
+# Cria um usuário 'tester' para simular um ambiente real
+# e adiciona ao grupo 'wheel' que terá permissões de sudo.
+RUN useradd --create-home --shell /bin/bash tester && \
+  usermod -a -G wheel tester
 
+# Configura o sudo para permitir que o grupo 'wheel' execute comandos sem senha.
+# Isso é crucial para a automação do build.
+RUN echo '%wheel ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+
+# 3. Copia os Dotfiles e ajusta permissões
+COPY . /home/dotfiles
+# O usuário 'tester' precisa ser dono dos arquivos para poder manipulá-los
+RUN chown -R tester:tester /home/dotfiles
+
+# 4. Muda para o Usuário de Teste
+USER tester
+
+# 5. Execução e Teste dos Scripts
+# O build irá falhar aqui se qualquer um dos scripts retornar um erro.
+
+# Dá permissão de execução aos scripts
+RUN chmod +x arch_based/install.sh arch_based/symbolic_link.sh
+
+# Executa o script de instalação principal
+# Este script instala yay, pacotes pacman/aur, asdf, etc.
+RUN /home/dotfiles/arch_based/install.sh
+
+# 6. Verificação (O Teste Real)
+# Verifica se os links simbólicos mais importantes foram criados corretamente.
+# Escolhemos alguns itens da lista CONFIG_DIRS atual para uma verificação representativa.
+RUN echo "--- Verificando links simbólicos ---" && \
+  test -L "$HOME/.config/fish" && \
+  test -L "$HOME/.config/nvim" && \
+  test -L "$HOME/.config/starship.toml" && \
+  echo "--- Links simbólicos verificados com sucesso! ---"
+
+# Se o build chegar até aqui, todos os testes passaram.
 CMD ["/bin/bash"]

@@ -1,12 +1,12 @@
 #!/bin/bash
 
-RED=$'\e[0;31m'
-GREEN=$'\e[0;32m'
-YELLOW=$'\e[0;33m'
-BLUE=$'\e[0;34m'
-RESET=$'\e[0m'
+# Garante que o script pare em caso de erro
+set -e
+
+# Obtém o diretório onde o próprio script está localizado, para referenciar outros scripts de forma segura
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # INSTALL DEFAULT APPS
-install_default_apps="$PWD/default_apps.sh"
-. "$install_default_apps"
-
+# Usa o SCRIPT_DIR como base para garantir que o caminho esteja sempre correto
+. "$SCRIPT_DIR/default_apps.sh"
+. "$SCRIPT_DIR/symbolic_link.sh"
