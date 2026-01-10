@@ -78,24 +78,27 @@ instalar_asdf_plugins() {
 post_install_docker() {
   log_step "Configurando Docker..."
 
-  # Determina o usuário alvo de forma robusta. Prioriza $SUDO_USER, depois $USER, e finalmente usa whoami.
+  # -------------------------------
+  # Determina o usuário alvo
+  # -------------------------------
   local target_user
   if [ -n "$SUDO_USER" ]; then
     target_user="$SUDO_USER"
   elif [ -n "$USER" ]; then
     target_user="$USER"
   else
-    target_user=$(whoami)
+    target_user="$(whoami)"
   fi
 
-  # Garante que temos um usuário e que não é o root
-  if [ -z "$target_user" ] || [ "$target_user" == "root" ]; then
-    log_error "Não foi possível determinar um usuário não-root para adicionar ao grupo docker."
-    exit 1
+  if [ -z "$target_user" ] || [ "$target_user" = "root" ]; then
+    log_error "Não foi possível determinar um usuário não-root para o grupo docker."
+    return 1
   fi
   log_info "Usuário alvo para o grupo docker: $target_user"
 
-  # Cria o grupo 'docker' se ele não existir
+  # -------------------------------
+  # Grupo docker
+  # -------------------------------
   if ! getent group docker >/dev/null; then
     sudo groupadd docker
     log_info "Grupo 'docker' criado."
@@ -103,16 +106,45 @@ post_install_docker() {
 
   sudo usermod -aG docker "$target_user"
 
-  # Verifica se está rodando dentro de um contêiner Docker para o comportamento do systemctl
-  if [ -f /.dockerenv ]; then
-    log_info "Ambiente Docker detectado. Apenas habilitando o serviço."
-    sudo systemctl enable docker
+  # -------------------------------
+  # Detecta ambiente (container / VM / físico)
+  # -------------------------------
+  local virt_type
+  # Tenta detectar a virtualização com systemd-detect-virt
+  if command -v systemd-detect-virt >/dev/null; then
+    virt_type=$(systemd-detect-virt)
   else
-    log_info "Ambiente real detectado. Habilitando e iniciando o serviço."
+    virt_type="none"
+  fi
+
+  # Se o método acima retornou "none", tenta um fallback via DMI/sysfs, que é mais confiável em alguns cenários de VM.
+  if [ "$virt_type" = "none" ]; then
+    if [ -f /sys/class/dmi/id/product_name ] && \
+       grep -q -i -E 'kvm|qemu|virtualbox|vmware' /sys/class/dmi/id/product_name 2>/dev/null; then
+      virt_type="vm" # Define um tipo genérico de VM para evitar a classificação como "máquina física"
+    fi
+  fi
+
+  if [ "$virt_type" = "docker" ] || [ -f /.dockerenv ]; then
+    log_warn "Container Docker detectado. Pulando start do serviço."
+    sudo systemctl enable docker
+
+  elif [ "$virt_type" != "none" ]; then
+    # -------------------------------
+    # Máquina Virtual
+    # -------------------------------
+    log_warn "Ambiente virtualizado detectado ($virt_type)."
+    log_warn "Pulando ativação de docker"
+  else
+    # -------------------------------
+    # Máquina física
+    # -------------------------------
+    log_info "Máquina física detectada. Habilitando e iniciando Docker."
     sudo systemctl enable --now docker
   fi
 
-  log_success "Docker pronto. (Lembre-se de deslogar para o grupo docker surtir efeito)"
+  log_success "Docker configurado com sucesso."
+  log_info "Deslogue e logue novamente para aplicar o grupo docker."
 }
 
 configurar_display_manager() {
