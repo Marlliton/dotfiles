@@ -14,7 +14,7 @@ PROGRAMAS_PACMAN=(
   "zoxide" "polkit-gnome" "archlinux-xdg-menu" "xdg-desktop-portal-hyprland" "xdg-desktop-portal-gtk"
   "dunst" "hyprpaper" "grim" "slurp" "swappy" "otf-font-awesome" "adwaita-icon-theme"
   "vlc" "kdenlive" "gwenview" "btop" "openssh" "rofi" "noto-fonts-emoji" "ttf-firacode-nerd" "ttf-cascadia-code-nerd"
-  "waybar" "jq" "pavucontrol" "openssl" "zlib" "xz" "tk" "zstd"
+  "waybar" "jq" "pavucontrol" "openssl" "zlib" "xz" "tk" "zstd" "greetd-regreet" "hyprland"
 )
 
 # Programas que vamos buscar no AUR
@@ -75,7 +75,7 @@ instalar_asdf_plugins() {
   done
 }
 
-install_docker() {
+post_install_docker() {
   log_step "Configurando Docker..."
 
   # Determina o usuário alvo de forma robusta. Prioriza $SUDO_USER, depois $USER, e finalmente usa whoami.
@@ -115,13 +115,55 @@ install_docker() {
   log_success "Docker pronto. (Lembre-se de deslogar para o grupo docker surtir efeito)"
 }
 
+configurar_display_manager() {
+  log_step "Configurando Display Manager (greetd + Hyprland)..."
+
+  # Garante que o diretório de configuração do greetd exista
+  sudo mkdir -p /etc/greetd
+
+  log_info "Criando configuração do Hyprland para o greetd em /etc/greetd/hyprland.conf"
+  # 1. Cria um arquivo de configuração específico para o Hyprland rodar o ReGreet
+  cat <<EOF | sudo tee /etc/greetd/hyprland.conf
+# Configuração do Hyprland para a tela de login (greetd)
+# Executa o ReGreet e, em seguida, fecha esta instância do Hyprland
+exec-once = regreet; hyprctl dispatch exit
+misc {
+    disable_hyprland_logo = true
+    disable_splash_rendering = true
+    disable_hyprland_guiutils_check = true
+}
+EOF
+
+  log_info "Criando configuração principal do greetd em /etc/greetd/config.toml"
+  # 2. Configura o greetd para usar a instância do Hyprland acima como a tela de login
+  cat <<EOF | sudo tee /etc/greetd/config.toml
+[default_session]
+# Usa o script 'start-hyprland' para iniciar com a configuração específica do greeter
+command = "start-hyprland -- -c /etc/greetd/hyprland.conf"
+user = "greeter"
+EOF
+
+  log_info "Arquivos de configuração em /etc/greetd/ criados."
+
+  # 3. Habilita o serviço do greetd para iniciar no boot do sistema real
+  if [ ! -f /.dockerenv ]; then
+    log_info "Habilitando serviço greetd.service para o próximo boot."
+    sudo systemctl enable greetd.service
+  else
+    log_warn "Ambiente Docker detectado, pulando a habilitação do serviço greetd."
+  fi
+
+  log_success "Display Manager configurado para usar Hyprland + ReGreet."
+}
+
 main() {
   setup_yay
   atualizar_sistema
   instalar_programas
   configurar_asdf
   instalar_asdf_plugins
-  install_docker
+  configurar_display_manager
+  post_install_docker
 
   log_success "Setup concluído com sucesso!"
 }

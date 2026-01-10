@@ -42,13 +42,13 @@ RUN chmod +x arch_based/install.sh arch_based/symbolic_link.sh
 RUN /home/dotfiles/arch_based/install.sh
 
 # 6. Verificação (O Teste Real)
-# Verifica se os links simbólicos mais importantes foram criados corretamente.
-# Escolhemos alguns itens da lista CONFIG_DIRS atual para uma verificação representativa.
-RUN echo "--- Verificando links simbólicos ---" && \
-  test -L "$HOME/.config/fish" && \
-  test -L "$HOME/.config/nvim" && \
-  test -L "$HOME/.config/starship.toml" && \
-  echo "--- Links simbólicos verificados com sucesso! ---"
-
+# Verifica se os links simbólicos e os arquivos de configuração foram criados.
+RUN echo "--- Verificando configurações ---" && \
+    test -L "$HOME/.config/fish" && \
+    test -L "$HOME/.config/nvim" && \
+    test -L "$HOME/.config/starship.toml" && \
+    test -f "/etc/greetd/config.toml" && \
+    test -f "/etc/greetd/hyprland.conf" && \
+    echo "--- Verificações concluídas com sucesso! ---"
 # Se o build chegar até aqui, todos os testes passaram.
 CMD ["/bin/bash"]
