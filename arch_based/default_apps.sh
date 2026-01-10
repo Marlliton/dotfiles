@@ -145,7 +145,7 @@ configurar_display_manager() {
   cat <<EOF | sudo tee /etc/greetd/hyprland.conf
 # Configuração do Hyprland para a tela de login (greetd)
 # Executa o ReGreet e, em seguida, fecha esta instância do Hyprland
-exec-once = regreet
+exec-once = regreet; hyprctl dispatch exit
 misc {
     disable_hyprland_logo = true
     disable_splash_rendering = true
@@ -160,7 +160,7 @@ EOF
   cat <<EOF | sudo tee /etc/greetd/config.toml
 [default_session]
 # Usa o script 'start-hyprland' para iniciar com a configuração específica do greeter
-command = "Hyprland -c /etc/greetd/hyprland.conf"
+command = "start-hyprland -- -c /etc/greetd/hyprland.conf"
 user = "greeter"
 EOF
 
