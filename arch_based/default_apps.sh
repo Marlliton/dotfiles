@@ -151,6 +151,8 @@ misc {
     disable_splash_rendering = true
     disable_hyprland_guiutils_check = true
 }
+env = GTK_USE_PORTAL,0
+env = GDK_DEBUG,no-portals
 EOF
 
   log_info "Criando configuração principal do greetd em /etc/greetd/config.toml"
