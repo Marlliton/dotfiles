@@ -110,20 +110,7 @@ post_install_docker() {
   # Detecta ambiente (container / VM / físico)
   # -------------------------------
   local virt_type
-  # Tenta detectar a virtualização com systemd-detect-virt
-  if command -v systemd-detect-virt >/dev/null; then
-    virt_type=$(systemd-detect-virt)
-  else
-    virt_type="none"
-  fi
-
-  # Se o método acima retornou "none", tenta um fallback via DMI/sysfs, que é mais confiável em alguns cenários de VM.
-  if [ "$virt_type" = "none" ]; then
-    if [ -f /sys/class/dmi/id/product_name ] && \
-       grep -q -i -E 'kvm|qemu|virtualbox|vmware' /sys/class/dmi/id/product_name 2>/dev/null; then
-      virt_type="vm" # Define um tipo genérico de VM para evitar a classificação como "máquina física"
-    fi
-  fi
+  virt_type="$(systemd-detect-virt || true)"
 
   if [ "$virt_type" = "docker" ] || [ -f /.dockerenv ]; then
     log_warn "Container Docker detectado. Pulando start do serviço."
@@ -134,7 +121,7 @@ post_install_docker() {
     # Máquina Virtual
     # -------------------------------
     log_warn "Ambiente virtualizado detectado ($virt_type)."
-    log_warn "Pulando ativação de docker"
+    log_warn "Pulando ativaćão de docker"
   else
     # -------------------------------
     # Máquina física
