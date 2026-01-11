@@ -1,13 +1,18 @@
 [global]
 # Fonte e aparência
 font = FiraCode Nerd Font 10
-geometry = "340x30-24+30"   # Largura levemente maior, posição refinada
+# A configuração 'geometry' foi substituída pelo novo formato abaixo
+width = 340
+height = (30, 100)
+origin = top-right
+offset = 24x30
 padding = 15                 # Aumentado para melhor espaçamento
 frame_width = 3              # Borda mais fina e elegante
 frame_color = "#89b4fa"
 separator_color = "#585b70"   # Mais sutil que a borda principal
 highlight = "#89b4fa"
 icon_position = left
+icon_theme = Adwaita, breeze
 transparency = 10             # Levemente menos transparente
 shadow = yes
 markup = yes
