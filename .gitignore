@@ -4,3 +4,6 @@ envs
 
 # tmux
 tmux/.config/tmux/plugins/
+
+# fish
+fish_variables

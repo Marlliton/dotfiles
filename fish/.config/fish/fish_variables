@@ -1,9 +1,0 @@
-# This file contains fish universal variable definitions.
-# VERSION: 3.0
-SETUVAR FZF_ALT_C_OPTS:\x2d\x2dpreview\x20\x27tree\x20\x2dC\x20\x7b\x7d\x20\x7c\x20head\x20\x2d200\x27
-SETUVAR FZF_CD_COMMAND:fd\x1e\x2d\x2dtype\x1ed
-SETUVAR FZF_CTRL_R_OPTS:\x2d\x2dpreview\x20\x27echo\x20\x7b\x7d\x27\x20\x2d\x2dpreview\x2dwindow\x3dup\x3a3\x3awrap
-SETUVAR FZF_CTRL_T_COMMAND:fd\x1e\x2d\x2dtype\x1ef
-SETUVAR FZF_CTRL_T_OPTS:\x2d\x2dpreview\x20\x27bat\x20\x2d\x2dstyle\x3dnumbers\x20\x2d\x2dcolor\x3dalways\x20\x7b\x7d\x20\x7c\x20head\x20\x2d500\x27
-SETUVAR __fish_initialized:4300
-SETUVAR fish_user_paths:/home/marlliton/\x2efzf/bin
