@@ -61,40 +61,27 @@ window#waybar > box {
   background: linear-gradient(135deg, @pink, @mauve);
 }
 
-/* Workspaces - Design moderno */
 #workspaces {
-  background: alpha(@surface0, 0.6);
-  padding: 0 4px;
-  margin: 0 6px;
-  border-radius: 14px;
+  border-radius: 1rem;
+  margin: 5px;
+  background-color: @surface0;
+  margin-left: 1rem;
 }
 
 #workspaces button {
-  color: @overlay0;
-  padding: 0 10px;
-  margin: 0 2px;
-  border-radius: 10px;
-  min-width: 28px;
-  background: transparent;
-  transition: all 0.3s ease;
-}
-
-#workspaces button:hover {
-  color: @subtext0;
-  background: alpha(@surface1, 0.5);
+  color: @lavender;
+  border-radius: 1rem;
+  padding: 0.4rem;
 }
 
 #workspaces button.active {
-  background: linear-gradient(135deg, @blue, @sapphire);
-  color: @base;
-  font-weight: bold;
-  box-shadow: 0 2px 8px alpha(@blue, 0.3);
+  color: @sky;
+  border-radius: 1rem;
 }
 
-#workspaces button.urgent {
-  background: linear-gradient(135deg, @red, @maroon);
-  color: @base;
-  animation: pulse 2s infinite;
+#workspaces button:hover {
+  color: @sapphire;
+  border-radius: 1rem;
 }
 
 @keyframes pulse {
