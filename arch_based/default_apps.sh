@@ -28,6 +28,8 @@ PROGRAMAS_PACMAN=(
   # --- APLICATIVOS (GUI) ---
   "firefox" "gedit" "keepassxc" "gimp" "kdenlive"
   "handbrake" "vlc" "audacious" "gwenview" "lutris"
+  # --- CODECS ---
+  "vlc-plugins-all" "ffmpeg"
 )
 
 # Programas que vamos buscar no AUR
