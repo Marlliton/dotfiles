@@ -14,10 +14,13 @@ include tabs.conf
 #: individual font faces and even specify special fonts for particular
 #: characters.
 
-# font_family      monospace
-# bold_font        auto
-# italic_font      auto
-# bold_italic_font auto
+# BEGIN_KITTY_FONTS
+font_family      family="CaskaydiaCove Nerd Font Mono"
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+font_size 11.0
+# END_KITTY_FONTS
 
 #: You can specify different fonts for the bold/italic/bold-italic
 #: variants. The easiest way to select fonts is to run the `kitten
@@ -2998,3 +3001,5 @@ include tabs.conf
 #: }}}
 
 #: }}}
+
+
