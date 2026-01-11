@@ -109,16 +109,16 @@ window#waybar > box {
 
 /* Relógio - Foco central */
 #clock {
-  background: linear-gradient(135deg, alpha(@mauve, 0.2), alpha(@pink, 0.2));
+  border-radius: 1rem;
+  margin: 5px;
+  background-color: @surface0;
   color: @lavender;
-  font-weight: bold;
-  padding: 0 16px;
-  border: 1px solid alpha(@mauve, 0.2);
-  font-size: 13px;
+  padding: 0.4rem 1rem;
 }
 
 #clock:hover {
-  background: linear-gradient(135deg, alpha(@mauve, 0.3), alpha(@pink, 0.3));
+  background-color: @surface1;
+  color: @sapphire;
 }
 
 /* Status do sistema */
