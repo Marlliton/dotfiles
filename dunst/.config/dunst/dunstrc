@@ -1,15 +1,13 @@
 [global]
 # Fonte e aparência
-# font = JetBrainsMono Nerd Font 10
-geometry = "340x100-24+44"   # Largura levemente maior, posição refinada
-padding = 20                 # Aumentado para melhor espaçamento
-horizontal_padding = 16
+font = FiraCode Nerd Font 10
+geometry = "340x30-24+30"   # Largura levemente maior, posição refinada
+padding = 15                 # Aumentado para melhor espaçamento
 frame_width = 3              # Borda mais fina e elegante
 frame_color = "#89b4fa"
 separator_color = "#585b70"   # Mais sutil que a borda principal
 highlight = "#89b4fa"
 icon_position = left
-# icon_path = 
 transparency = 10             # Levemente menos transparente
 shadow = yes
 markup = yes
