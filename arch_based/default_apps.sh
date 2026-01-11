@@ -19,6 +19,7 @@ PROGRAMAS_PACMAN=(
   # --- INTERFACE & APARÊNCIA (HYPRLAND) ---
   "waybar" "rofi" "dunst" "hyprpaper" "nwg-look" "kvantum"
   "pavucontrol" "grim" "slurp" "swappy" "pipewire" "wireplumber"
+  "qt6-svg" "qt6-declarative" "qt5-quickcontrols2"
   # --- FONTES & ÍCONES ---
   "otf-font-awesome" "ttf-firacode-nerd" "ttf-cascadia-code-nerd"
   "noto-fonts-emoji" "adwaita-icon-theme"
