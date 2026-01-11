@@ -12,7 +12,7 @@ configuration {
     sort-ci: true;
     case-sensitive: false;
 
-    font: "Inter 13";
+    font: "FiraCode Nerd Font 13";
 
     /* Navegação Vim */
     kb-row-up: "Up,Control+K,Shift+Tab,Shift+ISO_Left_Tab";
