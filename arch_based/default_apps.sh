@@ -10,26 +10,20 @@ PROGRAMAS_PACMAN=(
   # --- BASE DO SISTEMA & DRIVERS ---
   "hyprland" "sddm" "mesa" "polkit-gnome" "xdg-desktop-portal-hyprland"
   "xdg-desktop-portal-gtk" "archlinux-xdg-menu" "qt5-declarative"
-
   # --- DESENVOLVIMENTO & COMPILAÇÃO ---
   "base-devel" "git" "lazygit" "curl" "openssh" "openssl" "stow"
   "docker" "docker-compose" "jq" "tk" "zlib" "xz" "zstd"
-
   # --- TERMINAL MODERNO (CLI) ---
   "fish" "kitty" "starship" "tmux" "btop" "fzf" "ripgrep"
   "eza" "bat" "zoxide" "wl-clipboard" "fastfetch"
-
   # --- INTERFACE & APARÊNCIA (HYPRLAND) ---
   "waybar" "rofi" "dunst" "hyprpaper" "nwg-look" "kvantum"
   "pavucontrol" "grim" "slurp" "swappy"
-
   # --- FONTES & ÍCONES ---
   "otf-font-awesome" "ttf-firacode-nerd" "ttf-cascadia-code-nerd"
   "noto-fonts-emoji" "adwaita-icon-theme"
-
   # --- GERENCIAMENTO DE ARQUIVOS & DISCO ---
   "dolphin" "ark" "unzip" "unrar" "p7zip" "gparted" "dolphin-plugins"
-
   # --- APLICATIVOS (GUI) ---
   "firefox" "gedit" "keepassxc" "gimp" "kdenlive"
   "handbrake" "vlc" "audacious" "gwenview"
@@ -175,6 +169,72 @@ configurar_sddm() {
   log_success "SDDM configurado. Ele será iniciado no próximo boot."
 }
 
+instalar_tmux_plugins() {
+  log_step "Instalando plugins e ferramentas de sistema..."
+
+  # 1. Instalação do tmux-copy-plugin via Go
+  if command -v go >/dev/null 2>&1; then
+    log_info "Instalando tmux-copy-plugin via Go..."
+    if go install github.com/Marlliton/tmux-copy-plugin@v1.0.5; then
+      # Executa reshim apenas se o asdf estiver presente
+      if command -v asdf >/dev/null 2>&1; then
+        log_info "Atualizando shims do asdf (golang)..."
+        asdf reshim golang
+      fi
+    else
+      log_error "Falha ao instalar tmux-copy-plugin."
+    fi
+  else
+    log_warn "Go não encontrado. Pulando instalação do tmux-copy-plugin."
+  fi
+
+  # 2. Configuração do tema Catppuccin para Tmux
+  local tmux_plugin_dir="$HOME/.config/tmux/plugins/catppuccin/tmux"
+
+  if [ -d "$tmux_plugin_dir/.git" ]; then
+    log_warn "Plugin Catppuccin já está instalado em $tmux_plugin_dir."
+  else
+    log_info "Clonando tema Catppuccin (v2.1.3)..."
+    mkdir -p "$(dirname "$tmux_plugin_dir")"
+
+    if git clone -b v2.1.3 https://github.com/catppuccin/tmux.git "$tmux_plugin_dir"; then
+      log_success "Catppuccin clonado com sucesso."
+    else
+      log_error "Erro ao clonar o repositório do Catppuccin."
+      return 1
+    fi
+  fi
+
+  log_success "plugins instalados com sucesso!"
+}
+
+pos_instalacao() {
+  # 3. Mudança de Shell para Fish
+  log_step "Configurando Fish como shell padrão..."
+
+  local fish_path
+  fish_path=$(command -v fish)
+
+  if [[ "$SHELL" == *"/fish" ]]; then
+    log_warn "Fish já é o seu shell atual (\$SHELL)."
+  else
+    # Garante que o caminho do fish está no /etc/shells para o chsh não falhar
+    if ! grep -q "$fish_path" /etc/shells; then
+      log_info "Adicionando $fish_path ao /etc/shells..."
+      echo "$fish_path" | sudo tee -a /etc/shells
+    fi
+
+    log_info "Alterando shell para $fish_path..."
+    if sudo chsh -s "$fish_path" "$USER"; then
+      log_success "Shell alterado! Reinicie sua máquina para aplicar."
+    else
+      log_error "Falha ao alterar o shell."
+    fi
+  fi
+
+  log_success "Pós-instalação concluída!"
+}
+
 main() {
   setup_yay
   atualizar_sistema
@@ -183,6 +243,8 @@ main() {
   instalar_asdf_plugins
   post_install_docker
   configurar_sddm
+  instalar_tmux_plugins
+  pos_instalacao
 
   log_success "Setup concluído com sucesso!"
 }
