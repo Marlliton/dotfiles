@@ -18,7 +18,7 @@ PROGRAMAS_PACMAN=(
   "eza" "bat" "zoxide" "wl-clipboard" "fastfetch"
   # --- INTERFACE & APARÊNCIA (HYPRLAND) ---
   "waybar" "rofi" "dunst" "hyprpaper" "nwg-look" "kvantum"
-  "pavucontrol" "grim" "slurp" "swappy"
+  "pavucontrol" "grim" "slurp" "swappy" "pipewire" "wireplumber"
   # --- FONTES & ÍCONES ---
   "otf-font-awesome" "ttf-firacode-nerd" "ttf-cascadia-code-nerd"
   "noto-fonts-emoji" "adwaita-icon-theme"

@@ -1,0 +1,83 @@
+[global]
+# Fonte e aparência
+# font = JetBrainsMono Nerd Font 10
+geometry = "340x100-24+44"   # Largura levemente maior, posição refinada
+padding = 20                 # Aumentado para melhor espaçamento
+horizontal_padding = 16
+frame_width = 3              # Borda mais fina e elegante
+frame_color = "#89b4fa"
+separator_color = "#585b70"   # Mais sutil que a borda principal
+highlight = "#89b4fa"
+icon_position = left
+# icon_path = 
+transparency = 10             # Levemente menos transparente
+shadow = yes
+markup = yes
+word_wrap = yes
+ellipsize = middle
+ignore_newline = no
+show_indicators = no
+
+# Bordas arredondadas e sombras
+corner_radius = 16
+rounding = 16
+notification_limit = 6
+layer = overlay              # Para garantir que apareça acima de tudo
+force_xinerama = no
+
+# Urgência baixa - Catppuccin Macchiato
+[urgency_low]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+frame_color = "#89b4fa"
+timeout = 5
+highlight = "#89b4fa"
+
+# Urgência normal
+[urgency_normal]
+background = "#1e1e2e"
+foreground = "#cdd6f4"
+frame_color = "#cba6f7"      # Roxo mais suave que f5c2e7
+timeout = 6
+highlight = "#cba6f7"
+
+# Urgência crítica
+[urgency_critical]
+background = "#313244"       # Fundo levemente diferente para destaque
+foreground = "#f38ba8"
+frame_color = "#fab387"
+timeout = 10
+highlight = "#fab387"
+
+# Estilo para títulos e texto
+[frame]
+width = 3
+
+[shortcuts]
+close = ctrl+space
+close_all = ctrl+shift+space
+history = ctrl+grave
+context = ctrl+shift+period
+
+# Opções extras de comportamento
+[settings]
+# Duração das notificações (ms)
+timeout_low = 4000
+timeout_normal = 6000
+timeout_critical = 10000
+
+# Comportamento do mouse
+mouse_left_click = do_action
+mouse_middle_click = close_current
+mouse_right_click = close_all
+
+# Animações suaves
+fade_in = 200
+fade_out = 200
+fade_timeout = 50
+
+# Histórico
+history_length = 100
+always_run_script = true
+title = Dunst
+class = Dunst
