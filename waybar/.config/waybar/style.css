@@ -121,146 +121,77 @@ window#waybar > box {
   color: @sapphire;
 }
 
-/* Status do sistema */
-#pulseaudio {
-  color: @sky;
-  border-left: 2px solid alpha(@sky, 0.3);
+/* Status do sistema (Direita) */
+#pulseaudio,
+#network,
+#cpu,
+#memory,
+#battery,
+#tray,
+#custom-power {
+  border-radius: 1rem;
+  margin: 5px;
+  background-color: @surface0;
+  padding: 0.4rem 1rem;
 }
 
+#pulseaudio:hover,
+#network:hover,
+#cpu:hover,
+#memory:hover,
+#battery:hover,
+#tray:hover,
+#custom-power:hover {
+  background-color: @surface1;
+  color: @sapphire;
+}
+
+/* Cores e Estados Individuais */
+#pulseaudio {
+  color: @sky;
+}
 #pulseaudio.muted {
   color: @overlay0;
 }
 
 #network {
   color: @teal;
-  border-left: 2px solid alpha(@teal, 0.3);
 }
-
 #network.disconnected {
   color: @overlay0;
 }
 
 #cpu {
   color: @yellow;
-  border-left: 2px solid alpha(@yellow, 0.3);
-}
-
-#cpu.warning {
-  color: @peach;
-}
-
-#cpu.critical {
-  color: @red;
-  animation: critical-pulse 1s infinite;
 }
 
 #memory {
   color: @green;
-  border-left: 2px solid alpha(@green, 0.3);
 }
 
-#memory.warning {
-  color: @peach;
-}
-
-#memory.critical {
-  color: @red;
-  animation: critical-pulse 1s infinite;
-}
-
-@keyframes critical-pulse {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.5;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Bateria */
 #battery {
   color: @green;
-  border-left: 2px solid alpha(@green, 0.3);
 }
 
-#battery.charging {
-  color: @yellow;
-  animation: charging 2s infinite;
+#custom-power {
+  color: @red;
 }
 
+/* Estados de Alerta */
+#cpu.warning,
+#memory.warning,
 #battery.warning:not(.charging) {
   color: @peach;
 }
 
+#cpu.critical,
+#memory.critical,
 #battery.critical:not(.charging) {
   color: @red;
-  background: linear-gradient(135deg, alpha(@red, 0.2), alpha(@maroon, 0.2));
-  animation: critical-blink 0.8s infinite;
 }
 
-@keyframes charging {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes critical-blink {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Tray */
-#tray {
-  background: alpha(@surface1, 0.4);
-  padding: 0 10px;
-  margin-right: 4px;
-}
-
-#tray > * {
-  padding: 0 4px;
-}
-
-/* Botão Power */
-#custom-power {
-  background: linear-gradient(135deg, alpha(@red, 0.2), alpha(@maroon, 0.2));
-  color: @red;
-  font-size: 14px;
-  padding: 0 12px;
-  margin-right: 0px; /* Alterado de 4px para 0px */
-}
-
-#custom-power:hover {
-  background: linear-gradient(135deg, alpha(@red, 0.3), alpha(@maroon, 0.3));
-  color: @maroon;
-}
-
-/* Separadores visuais (GTK-safe) */
-#pulseaudio,
-#network,
-#cpu,
-#memory,
-#battery {
-  border-left: 1px solid alpha(@surface2, 0.3);
-  padding-left: 8px;
-  margin-left: 6px;
+#battery.charging {
+  color: @yellow;
 }
 
 /* Tooltips */
