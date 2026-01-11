@@ -49,16 +49,16 @@ window#waybar > box {
 
 /* Botão Start */
 #custom-start {
-  background: linear-gradient(135deg, @mauve, @pink);
-  color: @base;
-  font-size: 14px;
-  padding: 0 12px;
-  margin-left: 0px; /* Alterado de 4px para 0px */
-  font-weight: bold;
+  border-radius: 1rem;
+  margin: 5px;
+  background-color: @surface0;
+  color: @lavender;
+  padding: 0.4rem 1rem;
 }
 
 #custom-start:hover {
-  background: linear-gradient(135deg, @pink, @mauve);
+  background-color: @surface1;
+  color: @sapphire;
 }
 
 #workspaces {
