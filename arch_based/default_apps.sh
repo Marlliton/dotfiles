@@ -17,7 +17,7 @@ PROGRAMAS_PACMAN=(
   "fish" "kitty" "starship" "tmux" "btop" "fzf" "ripgrep"
   "eza" "bat" "zoxide" "wl-clipboard" "fastfetch"
   # --- INTERFACE & APARÊNCIA (HYPRLAND) ---
-  "waybar" "rofi" "dunst" "hyprpaper" "nwg-look" "kvantum"
+  "waybar" "rofi" "swaync" "hyprpaper" "nwg-look" "kvantum"
   "pavucontrol" "grim" "slurp" "swappy" "pipewire" "wireplumber"
   "qt6-svg" "qt6-declarative" "qt5-quickcontrols2"
   # --- FONTES & ÍCONES ---

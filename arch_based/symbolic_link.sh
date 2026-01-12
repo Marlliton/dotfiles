@@ -28,14 +28,15 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # Lista de pastas a serem linkadas
 CONFIG_DIRS=(
   "backgrounds"
-  "kitty"
-  "nvim"
-  "tmux"
   "fish"
   "hypr"
+  "kitty"
+  "nvim"
   "rofi"
   "starship"
   "swappy"
+  "swaync"
+  "tmux"
   "waybar"
   "xdg-desktop-portal"
 )
