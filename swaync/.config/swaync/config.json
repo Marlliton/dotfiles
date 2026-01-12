@@ -50,7 +50,7 @@
       "app-name": "Spotify"
     }
   },
-  "widgets": ["inhibitors", "title", "dnd", "notifications"],
+  "widgets": ["inhibitors", "title", "dnd", "notifications", "mpris", "volume"],
   "widget-config": {
     "notifications": {
       "vexpand": true
@@ -67,6 +67,9 @@
     },
     "dnd": {
       "text": "Do Not Disturb"
+    },
+    "volume": {
+      "label": "Volume"
     },
     "label": {
       "max-lines": 5,
