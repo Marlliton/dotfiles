@@ -26,7 +26,7 @@ PROGRAMAS_PACMAN=(
   # --- GERENCIAMENTO DE ARQUIVOS & DISCO ---
   "dolphin" "ark" "unzip" "unrar" "p7zip" "gparted" "dolphin-plugins"
   # --- APLICATIVOS (GUI) ---
-  "firefox" "gedit" "keepassxc" "gimp" "kdenlive"
+  "firefox" "gedit" "keepassxc" "gimp" "kdenlive" "httpie"
   "handbrake" "vlc" "audacious" "gwenview" "lutris"
   # --- CODECS ---
   "vlc-plugins-all" "ffmpeg"
