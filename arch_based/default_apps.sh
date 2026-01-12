@@ -26,7 +26,7 @@ PROGRAMAS_PACMAN=(
   # --- GERENCIAMENTO DE ARQUIVOS & DISCO ---
   "dolphin" "ark" "unzip" "unrar" "p7zip" "gparted" "dolphin-plugins"
   # --- APLICATIVOS (GUI) ---
-  "firefox" "gedit" "keepassxc" "gimp" "kdenlive" "httpie"
+  "firefox" "gedit" "keepassxc" "gimp" "kdenlive"
   "handbrake" "vlc" "audacious" "gwenview" "lutris"
   # --- CODECS ---
   "vlc-plugins-all" "ffmpeg"
@@ -35,6 +35,7 @@ PROGRAMAS_PACMAN=(
 # Programas que vamos buscar no AUR
 PROGRAMAS_AUR=(
   "asdf-vm" "qt6ct-kde" "catppuccin-gtk-theme-mocha" "hydra-launcher-bin" "protonplus"
+  "httpie-desktop-bin"
 )
 
 setup_yay() {
