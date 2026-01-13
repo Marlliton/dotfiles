@@ -9,7 +9,7 @@ set -e
 PROGRAMAS_PACMAN=(
   # --- BASE DO SISTEMA & DRIVERS ---
   "hyprland" "sddm" "mesa" "polkit-gnome" "xdg-desktop-portal-hyprland"
-  "xdg-desktop-portal-gtk" "archlinux-xdg-menu" "qt5-declarative"
+  "xdg-desktop-portal-gtk" "archlinux-xdg-menu" "qt5-declarative" "yt-dlp"
   # --- DESENVOLVIMENTO & COMPILAÇÃO ---
   "base-devel" "git" "lazygit" "curl" "openssh" "openssl" "stow"
   "docker" "docker-compose" "jq" "tk" "zlib" "xz" "zstd"
@@ -29,7 +29,8 @@ PROGRAMAS_PACMAN=(
   "firefox" "gedit" "keepassxc" "gimp" "kdenlive"
   "handbrake" "vlc" "audacious" "gwenview" "lutris"
   # --- CODECS ---
-  "vlc-plugins-all" "ffmpeg"
+  "vlc-plugins-all" "ffmpeg" "gst-plugins-ugly" "gst-plugins-good"
+  "gst-plugins-base" "gst-plugins-bad" "gst-libav" "gstreamer"
 )
 
 # Programas que vamos buscar no AUR
