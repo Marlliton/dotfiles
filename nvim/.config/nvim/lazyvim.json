@@ -13,7 +13,8 @@
     "lazyvim.plugins.extras.lang.toml",
     "lazyvim.plugins.extras.lang.typescript",
     "lazyvim.plugins.extras.lang.vue",
-    "lazyvim.plugins.extras.linting.eslint"
+    "lazyvim.plugins.extras.linting.eslint",
+    "lazyvim.plugins.extras.util.rest"
   ],
   "install_version": 8,
   "news": {
@@ -21,4 +22,3 @@
   },
   "version": 8
 }
-
