@@ -1,154 +1,157 @@
 {
-    "layer": "top",
-    "position": "top",
-    "height": 35,
-    "margin-top": 0,
-    "margin-bottom": -2,
-    "margin-left": 0,
-    "margin-right": 0,
-    "spacing": 0,
+  "layer": "top",
+  "position": "top",
+  "height": 35,
+  "margin-top": 0,
+  "margin-bottom": -2,
+  "margin-left": 0,
+  "margin-right": 0,
+  "spacing": 0,
 
-    // Módulos à esquerda
-    "modules-left": [
-        "custom/start",
-        "hyprland/workspaces",
-        "custom/window"
-    ],
+  // Módulos à esquerda
+  "modules-left": ["custom/start", "hyprland/workspaces", "custom/window"],
 
-    // Módulos no centro
-    "modules-center": [
-        "clock"
-    ],
+  // Módulos no centro
+  "modules-center": ["clock"],
 
-    // Módulos à direita
-    "modules-right": [
-        "pulseaudio",
-        "network",
-        "cpu",
-        "memory",
-        "battery",
-        "tray",
-        "custom/power"
-    ],
+  // Módulos à direita
+  "modules-right": [
+    "pulseaudio",
+    "network",
+    "cpu",
+    "memory",
+    "battery",
+    "tray",
+    "custom/power",
+  ],
 
-    // Configuração dos Módulos
-    "custom/start": {
-        "format": " 󰣇 ",
-        "tooltip": false,
-        "on-click": "rofi -show drun",
-        "on-click-right": "killall rofi || rofi -show run"
+  // Configuração dos Módulos
+  "custom/start": {
+    "format": " 󰣇 ",
+    "tooltip": false,
+    "on-click": "rofi -show drun",
+    "on-click-right": "killall rofi || rofi -show run",
+  },
+
+  "hyprland/workspaces": {
+    "format": " {icon} ",
+    "format-icons": {
+      "default": "\uebb4",
     },
-
-    "hyprland/workspaces": {
-        "format": " {icon} ",
-        "format-icons": {
-            "default": "\uebb4"
-        },
-        "persistent_workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": [],
-            "5": [],
-            "6": [],
-            "7": [],
-            "8": [],
-            "9": [],
-            "10": []
-        },
-        "on-scroll-up": "hyprctl dispatch workspace e+1",
-        "on-scroll-down": "hyprctl dispatch workspace e-1"
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": [],
     },
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+  },
 
-    "custom/window": {
-        "exec": "~/.config/waybar/scripts/get_window_icon.sh",
-        "return-type": "text",
-        "format": "{}",
-        "interval": 1,
-        "max-length": 45
+  "custom/window": {
+    "exec": "~/.config/waybar/scripts/get_window_icon.sh",
+    "return-type": "text",
+    "format": "{}",
+    "interval": 1,
+    "max-length": 45,
+  },
+
+  "clock": {
+    "format": "{:%H:%M   %d/%m/%Y }",
+    "tooltip-format": "<big>{:%Y %B}</big>\n{calendar}",
+    "interval": 10,
+    "calendar": {
+      "mode": "month",
+      "format": {
+        "months": "<span color='#cba6f7'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'><b>{}</b></span>",
+        "weekdays": "<span color='#b4befe'><b>{}</b></span>",
+        "today": "<span color='#fab387'><b>{}</b></span>",
+      },
     },
+  },
 
-    "clock": {
-        "format": "{:%H:%M   %d/%m/%Y }",
-        "tooltip-format": "<big>{:%Y %B}</big>\n{calendar}",
-        "interval": 10
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{icon} {volume}%",
+    "format-muted": "󰖁 Muted",
+    "format-icons": {
+      "headphone": "󰋋",
+      "hands-free": "󰋎",
+      "headset": "󰋎",
+      "phone": "󰏲",
+      "portable": "󰏲",
+      "car": "󰄋",
+      "default": ["󰕿", "󰖀", "󰕾"],
     },
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+  },
 
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "{icon} {volume}%",
-        "format-muted": "󰖁 Muted",
-        "format-icons": {
-            "headphone": "󰋋",
-            "hands-free": "󰋎",
-            "headset": "󰋎",
-            "phone": "󰏲",
-            "portable": "󰏲",
-            "car": "󰄋",
-            "default": ["󰕿", "󰖀", "󰕾"]
-        },
-        "scroll-step": 5,
-        "on-click": "pavucontrol",
-        "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  "network": {
+    "format-wifi": "󰖩 {essid}",
+    "format-ethernet": "󰈀 {ifname}",
+    "format-disconnected": "󰖪 Offline",
+    "tooltip-format": "󰛳 {ifname}\n󰩟 {ipaddr}/{cidr}\n󰅈 {bandwidthUpBytes} 󰅀 {bandwidthDownBytes}",
+    "on-click": "nm-connection-editor",
+    "on-click-right": "kitty nmtui",
+  },
+
+  "cpu": {
+    "format": "󰍛 {usage}%",
+    "interval": 5,
+    "states": {
+      "warning": 70,
+      "critical": 85,
     },
+    "tooltip": "󰘚 CPU Usage\n󰍛 Cores: {n_cores}\n󰾅 Freq: {avg_frequency} GHz",
+    "on-click": "kitty btop",
+  },
 
-    "network": {
-        "format-wifi": "󰖩 {essid}",
-        "format-ethernet": "󰈀 {ifname}",
-        "format-disconnected": "󰖪 Offline",
-        "tooltip-format": "󰛳 {ifname}\n󰩟 {ipaddr}/{cidr}\n󰅈 {bandwidthUpBytes} 󰅀 {bandwidthDownBytes}",
-        "on-click": "nm-connection-editor",
-        "on-click-right": "kitty nmtui"
+  "memory": {
+    "format": "󰘚 {percentage}%",
+    "interval": 5,
+    "states": {
+      "warning": 70,
+      "critical": 85,
     },
+    "tooltip": "󰍛 Memory Usage\n󰘚 Used: {used:.1f}G\n󰾅 Total: {total:.1f}G\n󰆼 Swap: {swapUsed:.1f}G/{swapTotal:.1f}G",
+    "on-click": "kitty btop",
+  },
 
-    "cpu": {
-        "format": "󰍛 {usage}%",
-        "interval": 5,
-        "states": {
-            "warning": 70,
-            "critical": 85
-        },
-        "tooltip": "󰘚 CPU Usage\n󰍛 Cores: {n_cores}\n󰾅 Freq: {avg_frequency} GHz",
-        "on-click": "kitty btop"
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15,
     },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰚥 {capacity}%",
+    "format-full": "󰁹 {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+    "interval": 10,
+    "tooltip-format": "{timeTo} {capacity}%\n󰂎 Health: {health}%\n󰍛 Consumption: {power:.2f}W",
+  },
 
-    "memory": {
-        "format": "󰘚 {percentage}%",
-        "interval": 5,
-        "states": {
-            "warning": 70,
-            "critical": 85
-        },
-        "tooltip": "󰍛 Memory Usage\n󰘚 Used: {used:.1f}G\n󰾅 Total: {total:.1f}G\n󰆼 Swap: {swapUsed:.1f}G/{swapTotal:.1f}G",
-        "on-click": "kitty btop"
-    },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8,
+    "padding": 4,
+  },
 
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "󰚥 {capacity}%",
-        "format-full": "󰁹 {capacity}%",
-        "format-alt": "{time} {icon}",
-        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-        "interval": 10,
-        "tooltip-format": "{timeTo} {capacity}%\n󰂎 Health: {health}%\n󰍛 Consumption: {power:.2f}W"
-    },
-
-    "tray": {
-        "icon-size": 16,
-        "spacing": 8,
-        "padding": 4
-    },
-
-    "custom/power": {
-        "format": "󰐥",
-        "tooltip": false,
-        "on-click": "~/.config/waybar/scripts/powermenu.sh",
-        "on-click-right": "systemctl poweroff"
-    }
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": false,
+    "on-click": "~/.config/waybar/scripts/powermenu.sh",
+    "on-click-right": "systemctl poweroff",
+  },
 }
