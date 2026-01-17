@@ -34,7 +34,7 @@
   },
 
   "hyprland/workspaces": {
-    "format": " {icon} ",
+    "format": "{icon} {name}", // Alterado para incluir o número do workspace
     "format-icons": {
       "default": "",
     },
