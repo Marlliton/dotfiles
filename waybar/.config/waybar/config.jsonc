@@ -36,7 +36,7 @@
   "hyprland/workspaces": {
     "format": " {icon} ",
     "format-icons": {
-      "default": "\uebb4",
+      "default": "",
     },
     "persistent_workspaces": {
       "1": [],
