@@ -10,9 +10,11 @@ PROGRAMAS_PACMAN=(
   # --- BASE DO SISTEMA & DRIVERS ---
   "hyprland" "sddm" "mesa" "polkit-gnome" "xdg-desktop-portal-hyprland"
   "xdg-desktop-portal-gtk" "archlinux-xdg-menu" "qt5-declarative" "yt-dlp"
+  "vulkan-radeon" "lib32-vulkan-radeon" "vulkan-icd-loader" "lib32-vulkan-icd-loader"
+  "vulkan-tools" "gamescope"
   # --- DESENVOLVIMENTO & COMPILAÇÃO ---
   "base-devel" "git" "lazygit" "curl" "openssh" "openssl" "stow"
-  "docker" "docker-compose" "jq" "tk" "zlib" "xz" "zstd"
+  "docker" "docker-buildx" "docker-compose" "jq" "tk" "zlib" "xz" "zstd"
   # --- TERMINAL MODERNO (CLI) ---
   "fish" "kitty" "starship" "tmux" "btop" "fzf" "ripgrep"
   "eza" "bat" "zoxide" "wl-clipboard" "fastfetch"
@@ -26,7 +28,7 @@ PROGRAMAS_PACMAN=(
   # --- GERENCIAMENTO DE ARQUIVOS & DISCO ---
   "dolphin" "ark" "unzip" "unrar" "p7zip" "gparted" "dolphin-plugins"
   # --- APLICATIVOS (GUI) ---
-  "firefox" "gedit" "keepassxc" "gimp" "kdenlive"
+  "firefox" "gedit" "keepassxc" "gimp" "kdenlive" "chromium" "transmission-gtk"
   "handbrake" "vlc" "audacious" "gwenview" "lutris"
   # --- CODECS ---
   "vlc-plugins-all" "ffmpeg" "gst-plugins-ugly" "gst-plugins-good"
