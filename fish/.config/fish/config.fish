@@ -67,7 +67,6 @@ alias cat="bat --style=auto"
 # ------------------------------------------------------------------------------
 # Environment variables
 # ------------------------------------------------------------------------------
-set -gx EDITOR nvim
 
 # ------------------------------------------------------------------------------
 # Prompt & shell enhancements
@@ -79,4 +78,3 @@ zoxide init fish | source
 # Added by LM Studio CLI (lms)
 set -gx PATH $PATH /home/marlliton/.lmstudio/bin
 # End of LM Studio CLI section
-
