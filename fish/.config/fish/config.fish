@@ -67,6 +67,7 @@ alias cat="bat --style=auto"
 # ------------------------------------------------------------------------------
 # Environment variables
 # ------------------------------------------------------------------------------
+# set -gx EXAMPLE gpt-4o
 
 # ------------------------------------------------------------------------------
 # Prompt & shell enhancements
@@ -75,6 +76,13 @@ starship init fish | source
 fzf --fish | source
 zoxide init fish | source
 
-# Added by LM Studio CLI (lms)
-set -gx PATH $PATH /home/marlliton/.lmstudio/bin
-# End of LM Studio CLI section
+# ------------------------------------------------------------------------------
+# Functions
+# ------------------------------------------------------------------------------
+function codex-marlliton
+    env CODEX_HOME=$HOME/.codex-marlliton codex $argv
+end
+
+function codex-cod3r
+    env CODEX_HOME=$HOME/.codex-cod3r codex $argv
+end
