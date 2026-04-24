@@ -112,7 +112,7 @@
       "critical": 85,
     },
     "tooltip": "󰘚 CPU Usage\n󰍛 Cores: {n_cores}\n󰾅 Freq: {avg_frequency} GHz",
-    "on-click": "kitty btop",
+    "on-click": "kitty btm",
   },
 
   "memory": {
@@ -123,7 +123,7 @@
       "critical": 85,
     },
     "tooltip": "󰍛 Memory Usage\n󰘚 Used: {used:.1f}G\n󰾅 Total: {total:.1f}G\n󰆼 Swap: {swapUsed:.1f}G/{swapTotal:.1f}G",
-    "on-click": "kitty btop",
+    "on-click": "kitty btm",
   },
 
   "battery": {
