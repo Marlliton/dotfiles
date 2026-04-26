@@ -68,6 +68,10 @@ alias cat="bat --style=auto"
 # Environment variables
 # ------------------------------------------------------------------------------
 # set -gx EXAMPLE gpt-4o
+set -x ANDROID_HOME $HOME/Android/Sdk
+set -x ANDROID_SDK_ROOT $HOME/Android/Sdk
+set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
+set -x PATH $ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
 
 # ------------------------------------------------------------------------------
 # Prompt & shell enhancements
