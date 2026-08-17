@@ -51,9 +51,16 @@ end
 # ------------------------------------------------------------------------------
 # Go (Golang)
 # ------------------------------------------------------------------------------
-# Load ASDF Go environment if available
+# Load ASDF Go environment if available (define GOROOT/GOPATH/GOBIN por versão)
 if test -f ~/.asdf/plugins/golang/set-env.fish
     source ~/.asdf/plugins/golang/set-env.fish
+end
+
+# O set-env.fish do asdf aponta GOBIN para ~/.asdf/installs/golang/<versao>/bin,
+# o que faz as ferramentas instaladas com `go install` sumirem a cada upgrade do Go.
+# Este handler é registrado depois do dele, então roda por último e vence.
+function pin_gobin --on-event fish_prompt
+    set -gx GOBIN "$HOME/.local/bin"
 end
 
 # ------------------------------------------------------------------------------
@@ -74,6 +81,17 @@ set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
 set -x PATH $ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
 
 # ------------------------------------------------------------------------------
+# SSH agent (passphrase cached once per session)
+# ------------------------------------------------------------------------------
+# Point to the systemd user ssh-agent socket. Combined with `AddKeysToAgent yes`
+# in ~/.ssh/config, the key is unlocked on first use and reused for the whole
+# session. Also set session-wide in ~/.config/environment.d/ssh-agent.conf; this
+# guard sets it immediately for terminals opened before the next login.
+if test -z "$SSH_AUTH_SOCK"; and test -n "$XDG_RUNTIME_DIR"
+    set -gx SSH_AUTH_SOCK "$XDG_RUNTIME_DIR/ssh-agent.socket"
+end
+
+# ------------------------------------------------------------------------------
 # Prompt & shell enhancements
 # ------------------------------------------------------------------------------
 starship init fish | source
@@ -90,3 +108,10 @@ end
 function codex-cod3r
     env CODEX_HOME=$HOME/.codex-cod3r codex $argv
 end
+
+# pnpm
+set -gx PNPM_HOME "/home/marlliton/.local/share/pnpm"
+if not string match -q -- "$PNPM_HOME/bin" $PATH
+  set -gx PATH "$PNPM_HOME/bin" $PATH
+end
+# pnpm end
