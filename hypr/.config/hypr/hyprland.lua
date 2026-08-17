@@ -64,6 +64,12 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hyprpaper")
     hl.exec_cmd("/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1")
     hl.exec_cmd("swaync")
+
+    -- hyprcal: daemon do popup de calendario. Sobe escondido e so aparece no
+    -- toggle disparado pelo on-click do relogio da waybar
+    -- ("ags toggle -i hyprcal calendar"). Precisa estar rodando para o clique
+    -- funcionar -- sem instancia viva, o comando nao tem com quem falar.
+    hl.exec_cmd("ags run -d ~/github/hyprcal")
 end)
 
 

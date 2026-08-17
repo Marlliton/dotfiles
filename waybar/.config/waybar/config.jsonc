@@ -64,17 +64,10 @@
 
   "clock": {
     "format": "{:%H:%M   %d/%m/%Y }",
-    "tooltip-format": "<big>{:%Y %B}</big>\n{calendar}",
+    // Sem tooltip: o calendário agora é o hyprcal, aberto no clique.
+    "tooltip": false,
+    "on-click": "ags toggle -i hyprcal calendar",
     "interval": 10,
-    "calendar": {
-      "mode": "month",
-      "format": {
-        "months": "<span color='#cba6f7'><b>{}</b></span>",
-        "days": "<span color='#cdd6f4'><b>{}</b></span>",
-        "weekdays": "<span color='#b4befe'><b>{}</b></span>",
-        "today": "<span color='#fab387'><b>{}</b></span>",
-      },
-    },
   },
 
   "pulseaudio": {
