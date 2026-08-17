@@ -66,19 +66,24 @@ end
 # ------------------------------------------------------------------------------
 # Aliases (CLI quality of life)
 # ------------------------------------------------------------------------------
-alias ls="exa --icons"
-alias ll="exa --icons -l"
-alias la="exa --icons -la"
+alias ls="exa --icons=auto"
+alias ll="exa --icons=auto -l"
+alias la="exa --icons=auto -la"
 alias cat="bat --style=auto"
 
 # ------------------------------------------------------------------------------
 # Environment variables
 # ------------------------------------------------------------------------------
 # set -gx EXAMPLE gpt-4o
-set -x ANDROID_HOME $HOME/Android/Sdk
-set -x ANDROID_SDK_ROOT $HOME/Android/Sdk
-set -x JAVA_HOME /usr/lib/jvm/java-17-openjdk
-set -x PATH $ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
+set -gx ANDROID_HOME $HOME/Android/Sdk
+set -gx ANDROID_SDK_ROOT $HOME/Android/Sdk
+set -gx JAVA_HOME /usr/lib/jvm/java-17-openjdk
+
+# ATENÇÃO: nunca usar "a:b:$PATH" aqui. No fish o PATH é uma lista, e concatenar
+# com ":" faz produto cartesiano (cada entrada existente vira "a:b:entrada"),
+# multiplicando o PATH a cada shell até estourar o limite do exec (E2BIG).
+# fish_add_path prepende cada caminho como elemento e não duplica.
+fish_add_path -gP $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools $ANDROID_HOME/emulator
 
 # ------------------------------------------------------------------------------
 # SSH agent (passphrase cached once per session)
